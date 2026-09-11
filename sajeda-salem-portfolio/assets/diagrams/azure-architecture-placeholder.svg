@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620">
+<rect width="1200" height="620" rx="28" fill="#0F172A"/>
+<rect x="2" y="2" width="1196" height="616" rx="26" fill="none" stroke="#2A3B55" stroke-width="2"/>
+<g fill="#93C5FD" font-family="Arial, sans-serif" text-anchor="middle">
+<text x="600" y="278" font-size="30" font-weight="700">Azure Draw.io Architecture</text>
+<text x="600" y="324" font-size="19" fill="#94A3B8">Replace this file with your exported Draw.io diagram</text>
+<text x="600" y="360" font-size="17" fill="#64748B">assets/diagrams/azure-architecture.png</text>
+</g>
+</svg>
