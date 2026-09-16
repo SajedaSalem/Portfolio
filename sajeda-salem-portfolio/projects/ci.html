@@ -1,29 +1,26 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Server Inventory API — GitHub Actions CI Pipeline — Sajeda Salem</title><link rel="icon" href="../assets/ss-logo.svg"><link rel="stylesheet" href="../assets/styles.css"></head><body>
-
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Server Inventory API — GitHub Actions CI Pipeline — Sajeda Salem</title><link href="../assets/ss-logo.svg" rel="icon"/><link href="../assets/styles.css" rel="stylesheet"/></head><body>
 <header class="nav"><div class="container nav-inner">
-<a class="brand" href="../index.html"><img src="../assets/ss-logo.svg" alt="SS logo"><span>Sajeda Salem</span></a>
-<nav class="nav-links" aria-label="Main navigation">
-<a href="../index.html#about">About</a><a href="../index.html#skills">Skills</a><a href="../index.html#projects">Projects</a><a href="../index.html#contact" class="nav-cta">Contact</a>
-</nav></div></header>
-
-<main><header class="project-hero"><div class="container"><div class="breadcrumb"><a href="../index.html#projects">← Selected Projects</a></div><div class="section-kicker">Continuous Integration · Automated Testing · Code Quality · Runtime Verification</div><h1>Server Inventory API — GitHub Actions CI Pipeline</h1><p class="lede">A Python Flask API surrounded by a repeatable Continuous Integration workflow with automated code-quality checks, multi-version testing, JUnit artifacts, runtime smoke tests and deliberate failure verification.</p><div class="project-actions"><a class="btn btn-secondary" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api">View Repository ↗</a><a class="btn btn-secondary" href="../index.html#contact">Contact</a></div></div></header>
+<a class="brand" href="../index.html"><img alt="SS logo" src="../assets/ss-logo.svg"/><span>Sajeda Salem</span></a>
+<nav aria-label="Main navigation" class="nav-links">
+<a href="../index.html#about">About</a><a href="../index.html#skills">Skills</a><a href="../index.html#projects">Projects</a><a class="nav-cta" href="../index.html#contact">Contact</a>
+<span class="lang-switch"><a class="active-lang" href="ci.html">EN</a><span>|</span><a href="../de/projects/ci.html">DE</a></span></nav></div></header>
+<main><header class="project-hero"><div class="container"><div class="breadcrumb"><a href="../index.html#projects">← Selected Projects</a></div><div class="section-kicker">Continuous Integration · Automated Testing · Code Quality · Runtime Verification</div><h1>Server Inventory API — GitHub Actions CI Pipeline</h1><p class="lede">A Python Flask API surrounded by a repeatable Continuous Integration workflow with automated code-quality checks, multi-version testing, JUnit artifacts, runtime smoke tests and deliberate failure verification.</p><div class="project-actions"><a class="btn btn-secondary" href="https://github.com/SajedaSalem/-server-inventory-api" rel="noreferrer" target="_blank">View Repository ↗</a><a class="btn btn-secondary" href="../index.html#contact">Contact</a></div></div></header>
 <section><div class="container">
 <div class="section-head reveal"><div><div class="section-kicker">Project goal</div><h2>Move validation into the repository.</h2></div>
 <p>A test suite is only useful when it runs consistently. This project moves validation away from developer memory and local machine state into a repeatable GitHub Actions workflow. Relevant changes are checked in fresh runners through environment setup, linting, automated tests, multi-version compatibility, artifact preservation and runtime smoke testing.</p></div>
 <div class="architecture reveal"><div class="arch-flow"><div class="arch-node"><strong>Code Change</strong><small>push · PR · manual</small></div><div class="connector">→</div><div class="arch-node"><strong>Test Matrix</strong><small>Python 3.11 + 3.12</small></div><div class="connector">→</div><div class="arch-node"><strong>JUnit Artifact</strong><small>report.xml</small></div><div class="connector">→</div><div class="arch-node"><strong>Smoke Job</strong><small>HTTP verification</small></div><div class="connector">→</div><div class="arch-node"><strong>CI Result</strong><small>pass / fail</small></div></div></div>
 </div></section>
-
 <section><div class="container">
 <div class="section-head reveal"><div><div class="section-kicker">Application under test</div><h2>A small Flask API with CI-friendly runtime checks.</h2></div>
 <p>The Server Inventory API manages a JSON-based inventory of nine example servers across production, staging and development. Inventory logic is separated from the HTTP layer, so both application logic and API behaviour can be tested independently. Health, readiness and version endpoints then give the smoke stage specific runtime conditions to validate.</p></div>
 <div class="table-wrap reveal"><table><thead><tr><th>Endpoint</th><th>Purpose</th></tr></thead><tbody>
 <tr><td class="mono">GET /healthz</td><td>Confirms the application is running</td></tr><tr><td class="mono">GET /readyz</td><td>Confirms the inventory is loaded</td></tr><tr><td class="mono">GET /version</td><td>Returns the configured CI build version</td></tr><tr><td class="mono">GET /servers</td><td>Returns available servers</td></tr><tr><td class="mono">GET /servers/&lt;name&gt;</td><td>Returns a specific server</td></tr><tr><td class="mono">GET /stats</td><td>Returns inventory statistics</td></tr>
 </tbody></table></div></div></section>
-
 <section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Workflow triggers</div><h2>Automatic quality gates, with manual control.</h2></div>
 <p>A push to <span class="mono">main</span> validates code already reaching the branch. Pull requests targeting <span class="mono">main</span> are checked before merge, and <span class="mono">workflow_dispatch</span> keeps the same validation available on demand through the GitHub Actions interface.</p></div>
-<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Triggers</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml">View YAML</a><a class="mini-btn" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34065989942/workflow">View CI Run ↗</a></div></div><pre>name: CI
+<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Triggers</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml" rel="noreferrer" target="_blank">View YAML</a><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34065989942/workflow" rel="noreferrer" target="_blank">View CI Run ↗</a></div></div><pre>name: CI
 on:
   push:
     branches: [main]
@@ -31,60 +28,55 @@ on:
     branches: [main]
   workflow_dispatch:</pre></div>
 </div></section>
-
-<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Runner & Python environment</div><h2>Reproducible setup on every run.</h2></div>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Runner &amp; Python environment</div><h2>Reproducible setup on every run.</h2></div>
 <p>Each execution starts on a GitHub-hosted <span class="mono">ubuntu-latest</span> runner. The repository is checked out, the required Python version is installed and project dependencies are loaded from <span class="mono">requirements.txt</span>. Pip caching allows later runs to reuse downloaded dependencies where possible. Because this setup is encoded in CI, validation does not depend on packages that happen to be installed on the developer's machine.</p></div>
-<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Runner & Python setup</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml">View YAML</a><a class="mini-btn" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34067258033/workflow">View CI Run ↗</a></div></div><pre>runs-on: ubuntu-latest
+<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Runner &amp; Python setup</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml" rel="noreferrer" target="_blank">View YAML</a><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34067258033/workflow" rel="noreferrer" target="_blank">View CI Run ↗</a></div></div><pre>runs-on: ubuntu-latest
 steps:
   - uses: actions/checkout@v4
 
   - uses: actions/setup-python@v5
     with:
       python-version: ${{ matrix.python-version }}
-      cache: &quot;pip&quot;
+      cache: "pip"
 
   - run: pip install -r requirements.txt</pre></div>
 </div></section>
-
-<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Code quality & automated testing</div><h2>Fail early on quality, then verify behaviour.</h2></div>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Code quality &amp; automated testing</div><h2>Fail early on quality, then verify behaviour.</h2></div>
 <div>
 <p>The validation order is intentional. Before the test suite runs, <span class="mono">flake8</span> performs static code-quality checks using the project's linting configuration. If the source violates those rules, the pipeline fails at the quality gate instead of spending time continuing through application tests with code that has already failed validation.</p>
 <p>Once linting succeeds, <span class="mono">pytest</span> executes the automated tests. The <span class="mono">-q</span> flag keeps CI output concise, while <span class="mono">--junitxml=report.xml</span> creates a structured JUnit report that can be preserved outside the temporary runner. This means the stage validates both source quality and application behaviour, while also producing diagnostic output for later inspection.</p>
 </div></div>
 <div class="architecture reveal"><div class="arch-flow"><div class="arch-node"><strong>Source</strong></div><div class="connector">→</div><div class="arch-node"><strong>flake8</strong><small>quality gate</small></div><div class="connector">→</div><div class="arch-node"><strong>pytest</strong><small>application tests</small></div><div class="connector">→</div><div class="arch-node"><strong>report.xml</strong><small>JUnit result</small></div></div></div>
-<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Lint & test</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml">View YAML</a><a class="mini-btn" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34067258033/workflow">View CI Run ↗</a></div></div><pre>- name: Lint with flake8
+<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Lint &amp; test</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml" rel="noreferrer" target="_blank">View YAML</a><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34067258033/workflow" rel="noreferrer" target="_blank">View CI Run ↗</a></div></div><pre>- name: Lint with flake8
   run: flake8 .
 
 - name: Run tests
   run: pytest -q --junitxml=report.xml</pre></div>
 </div></section>
-
 <section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Multi-version testing</div><h2>One job definition, two Python versions.</h2></div>
 <p>Instead of duplicating the complete test job, a matrix strategy generates independent executions for Python 3.11 and 3.12 from one definition. <span class="mono">fail-fast: false</span> is useful for diagnosis because a failure on one version does not cancel the other matrix run; both compatibility results remain visible.</p></div>
-<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Python matrix</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml">View YAML</a><a class="mini-btn" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34070245981/workflow">View CI Run ↗</a></div></div><pre>strategy:
+<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Python matrix</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml" rel="noreferrer" target="_blank">View YAML</a><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34070245981/workflow" rel="noreferrer" target="_blank">View CI Run ↗</a></div></div><pre>strategy:
   fail-fast: false
   matrix:
     python-version:
-      - &quot;3.11&quot;
-      - &quot;3.12&quot;
+      - "3.11"
+      - "3.12"
 
 python-version: ${{ matrix.python-version }}</pre></div>
 <div class="grid-2 reveal"><div class="info-card"><div class="metric">3.11</div><strong>flake8 → pytest</strong></div><div class="info-card"><div class="metric">3.12</div><strong>flake8 → pytest</strong></div></div>
 </div></section>
-
-<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Test reports & artifacts</div><h2>Preserve the evidence after the runner disappears.</h2></div>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Test reports &amp; artifacts</div><h2>Preserve the evidence after the runner disappears.</h2></div>
 <p>Every test execution produces <span class="mono">report.xml</span>. The report is uploaded as a GitHub Actions artifact, which keeps the structured test result available after the temporary runner finishes. The upload uses <span class="mono">if: always()</span> deliberately: a failed test run is exactly when diagnostic output can be most useful, so the artifact should not disappear just because pytest returned an error.</p></div>
-<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Test artifact</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml">View YAML</a><a class="mini-btn" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34071375352/workflow">View CI Run ↗</a></div></div><pre>- name: Upload test report
+<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Test artifact</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml" rel="noreferrer" target="_blank">View YAML</a><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34071375352/workflow" rel="noreferrer" target="_blank">View CI Run ↗</a></div></div><pre>- name: Upload test report
   if: always()
   uses: actions/upload-artifact@v4
   with:
     name: test-report
     path: report.xml</pre></div>
 </div></section>
-
 <section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Runtime smoke testing</div><h2>Passing tests is not the same as starting successfully.</h2></div>
 <p>The second job, <span class="mono">smoke</span>, starts only after the test job succeeds. It runs on another fresh runner, so it cannot rely on the environment prepared by the test stage. The job repeats the necessary setup, launches the Flask API in the background and then communicates with the running application over HTTP. This adds a different kind of validation: not only whether functions behave correctly in tests, but whether the service can actually start and respond in a clean runtime environment.</p></div>
-<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Start API & health check</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml">View YAML</a><a class="mini-btn" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34073700026">View CI Run ↗</a></div></div><pre>smoke:
+<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Start API &amp; health check</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml" rel="noreferrer" target="_blank">View YAML</a><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34073700026" rel="noreferrer" target="_blank">View CI Run ↗</a></div></div><pre>smoke:
   needs: test
   runs-on: ubuntu-latest
 
@@ -95,55 +87,50 @@ python-version: ${{ matrix.python-version }}</pre></div>
 
 - name: Check health endpoint
   run: |
-    code=$(curl -s -o /dev/null -w &quot;%{http_code}&quot; http://127.0.0.1:5000/healthz)
-    echo &quot;got $code&quot;
-    test &quot;$code&quot; = &quot;200&quot;</pre></div>
+    code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:5000/healthz)
+    echo "got $code"
+    test "$code" = "200"</pre></div>
 <div class="grid-3 reveal"><article class="info-card"><div class="section-kicker">Health</div><h3>GET /healthz</h3><p>Checks whether the application is reachable and explicitly expects HTTP 200.</p></article><article class="info-card"><div class="section-kicker">Readiness</div><h3>GET /readyz</h3><p>Goes deeper by confirming that the expected nine-server inventory has been loaded.</p></article><article class="info-card"><div class="section-kicker">Runtime distinction</div><h3>Running ≠ ready</h3><p>The two endpoints distinguish a live process from an application that is actually ready with its data.</p></article></div>
 </div></section>
-
 <section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">CI build identification</div><h2>Connect the running application to its CI execution.</h2></div>
 <p>During the smoke stage, GitHub's run number is passed to the application through <span class="mono">APP_VERSION</span>. The <span class="mono">/version</span> endpoint is then checked for the same value. This creates a simple trace from a GitHub Actions run to the application instance without hard-coding a new version directly into the source code.</p></div>
-<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Build identification</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml">View YAML</a><a class="mini-btn" target="_blank" rel="noreferrer" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34075680580/workflow">View CI Run ↗</a></div></div><pre>env:
+<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Build identification</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml" rel="noreferrer" target="_blank">View YAML</a><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34075680580/workflow" rel="noreferrer" target="_blank">View CI Run ↗</a></div></div><pre>env:
   APP_VERSION: ci-${{ github.run_number }}
 
 # Runtime check:
 GET /version  →  ci-${{ github.run_number }}</pre></div>
 </div></section>
-
 <section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Controlled failure test</div><h2>Make sure CI can reject a bad change.</h2></div>
 <p>A CI pipeline should demonstrate failure detection as clearly as success. On a separate <span class="mono">break-it</span> branch, one test expectation was intentionally changed so the suite would fail. That branch was opened as a pull request against <span class="mono">main</span>. GitHub Actions detected the regression, exposed a failed check in the pull-request interface and the change was closed without being merged.</p></div>
-<div class="failure-flow reveal"><div class="failure-step"><strong>break-it branch</strong><br><small>intentional test change</small></div><div class="failure-arrow">→</div><div class="failure-step"><strong>Pull Request → main</strong><br><small>CI validation starts</small></div><div class="failure-arrow">→</div><div class="failure-step bad"><strong>CI Check Failed</strong><br><small>regression caught before merge</small></div></div>
+<div class="failure-flow reveal"><div class="failure-step"><strong>break-it branch</strong><br/><small>intentional test change</small></div><div class="failure-arrow">→</div><div class="failure-step"><strong>Pull Request → main</strong><br/><small>CI validation starts</small></div><div class="failure-arrow">→</div><div class="failure-step bad"><strong>CI Check Failed</strong><br/><small>regression caught before merge</small></div></div>
 <div class="grid-2 reveal">
 <details class="evidence"><summary>View intentional breaking change</summary><div class="evidence-body">
-<img class="evidence-image zoomable" src="../assets/screenshots/ci/break-it-change.png" alt="Intentional breaking test change" data-caption="Intentional breaking test change" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
-<div class="missing-image" style="display:none">Add image:<br><span class="mono">assets/screenshots/ci/break-it-change.png</span></div><div class="evidence-caption">Intentional regression introduced on the break-it branch.</div>
+<img alt="Intentional breaking test change" class="evidence-image zoomable" data-caption="Intentional breaking test change" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../assets/screenshots/ci/break-it-change.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/ci/break-it-change.png</span></div><div class="evidence-caption">Intentional regression introduced on the break-it branch.</div>
 </div></details>
 <details class="evidence"><summary>View failed pull request</summary><div class="evidence-body">
-<img class="evidence-image zoomable" src="../assets/screenshots/ci/failed-pull-request.png" alt="Failed pull request CI check" data-caption="Failed pull request CI check" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
-<div class="missing-image" style="display:none">Add image:<br><span class="mono">assets/screenshots/ci/failed-pull-request.png</span></div><div class="evidence-caption">Regression detected before merge by GitHub Actions.</div>
+<img alt="Failed pull request CI check" class="evidence-image zoomable" data-caption="Failed pull request CI check" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../assets/screenshots/ci/failed-pull-request.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/ci/failed-pull-request.png</span></div><div class="evidence-caption">Regression detected before merge by GitHub Actions.</div>
 </div></details>
 </div>
 <div class="callout reveal" style="margin-top:20px"><strong>Failure verification:</strong> The first screenshot documents the deliberate regression introduced on <span class="mono">break-it</span>; the second shows GitHub Actions catching that change at pull-request level. Successful workflow executions remain directly verifiable through the live CI links throughout this page.</div>
 </div></section>
-
 <section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Engineering decisions</div><h2>Why the pipeline is structured this way.</h2></div><p>The workflow separates concerns so that source quality, compatibility, diagnostic reporting and runtime behaviour are validated for different reasons rather than collapsed into one opaque “build” step.</p></div>
-<div class="grid-2 reveal"><article class="decision-card"><h3>Separate test & smoke jobs</h3><p>Tests validate logic and API behaviour. A second fresh runner proves that the application can start and answer real HTTP requests.</p></article><article class="decision-card"><h3>Matrix instead of duplicate jobs</h3><p>One maintainable workflow definition produces independent Python 3.11 and 3.12 compatibility results.</p></article><article class="decision-card"><h3>Artifacts survive failures</h3><p>JUnit output is retained even when tests fail, keeping useful troubleshooting information available.</p></article><article class="decision-card"><h3>Runtime metadata through environment</h3><p>The CI run number reaches the application through configuration rather than source-code changes.</p></article></div>
+<div class="grid-2 reveal"><article class="decision-card"><h3>Separate test &amp; smoke jobs</h3><p>Tests validate logic and API behaviour. A second fresh runner proves that the application can start and answer real HTTP requests.</p></article><article class="decision-card"><h3>Matrix instead of duplicate jobs</h3><p>One maintainable workflow definition produces independent Python 3.11 and 3.12 compatibility results.</p></article><article class="decision-card"><h3>Artifacts survive failures</h3><p>JUnit output is retained even when tests fail, keeping useful troubleshooting information available.</p></article><article class="decision-card"><h3>Runtime metadata through environment</h3><p>The CI run number reaches the application through configuration rather than source-code changes.</p></article></div>
 </div></section>
-
 <section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">What I learned</div><h2>CI is a validation system, not just a green check.</h2></div>
 <p>The project connected repository events, clean runners, linting, automated tests, matrix compatibility, artifact management, job dependencies, environment-based configuration and HTTP smoke testing into one repeatable process. The controlled failure test was especially valuable because it proved the pipeline could identify and surface an invalid change — not merely demonstrate successful builds.</p></div>
 <div class="callout reveal"><strong>Future direction:</strong> Security scanning → container image build → automated deployment. These remain future improvements rather than features presented as already implemented.</div></div></section>
 </main>
-
 <footer class="footer"><div class="container footer-inner">
-<div class="footer-brand"><img src="../assets/ss-logo.svg" alt=""><div><strong>SS — Sajeda Salem</strong><br><span>Build. Connect. Automate. Improve.</span></div></div>
+<div class="footer-brand"><img alt="" src="../assets/ss-logo.svg"/><div><strong>SS — Sajeda Salem</strong><br/><span>Build. Connect. Automate. Improve.</span></div></div>
 <div>Junior DevOps &amp; Cloud Engineer</div></div></footer>
 <script src="../assets/script.js"></script>
-<div class="image-lightbox" id="imageLightbox" aria-hidden="true" role="dialog" aria-label="Expanded project screenshot">
-  <div class="image-lightbox-dialog">
-    <button class="image-lightbox-close" type="button" aria-label="Close image">×</button>
-    <img src="" alt="">
-    <div class="image-lightbox-caption"></div>
-  </div>
+<div aria-hidden="true" aria-label="Expanded project screenshot" class="image-lightbox" id="imageLightbox" role="dialog">
+<div class="image-lightbox-dialog">
+<button aria-label="Close image" class="image-lightbox-close" type="button">×</button>
+<img alt="" src=""/>
+<div class="image-lightbox-caption"></div>
+</div>
 </div>
 </body></html>

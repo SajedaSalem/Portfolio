@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html lang="de"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Dockerized DevOps Environment — Sajeda Salem</title><link href="../../assets/ss-logo.svg" rel="icon"/><link href="../../assets/styles.css" rel="stylesheet"/></head><body>
+<header class="nav"><div class="container nav-inner">
+<a class="brand" href="../index.html"><img alt="SS logo" src="../../assets/ss-logo.svg"/><span>Sajeda Salem</span></a>
+<nav aria-label="Main navigation" class="nav-links">
+<a href="../index.html#about">Über mich</a><a href="../index.html#skills">Kenntnisse</a><a href="../index.html#projects">Projekte</a><a class="nav-cta" href="../index.html#contact">Kontakt</a>
+<span class="lang-switch"><a href="../../projects/docker.html">EN</a><span>|</span><a class="active-lang" href="docker.html">DE</a></span></nav></div></header>
+<main><header class="project-hero"><div class="container"><div class="breadcrumb"><a href="../index.html#projects">← Ausgewählte Projekte</a></div><div class="section-kicker">Container · Service-Orchestrierung · Networking · Infrastrukturkonzepte</div><h1>Dockerized DevOps Environment</h1><p class="lede">Eine containerisierte Application- und Infrastrukturumgebung, die sich von einzelnen Services zu einem verbundenen Multi-Container-Stack entwickelt. Jeder Schritt wird durch praktische Deployments, Networking und Troubleshooting verifiziert.</p><div class="project-actions"><a class="btn btn-secondary" href="../index.html#contact">Kontakt</a></div></div></header>
+<section><div class="container">
+<div class="section-head reveal"><div><div class="section-kicker">Projektziel</div><h2>Container als verbundene Bestandteile eines Systems aufbauen.</h2></div>
+<p>Das Projekt entwickelt sich von einzeln containerisierten Services zu einer mit Docker Compose verwalteten Multi-Container-Umgebung. Im Fokus stehen nicht nur einzelne Docker-Befehle, sondern das Verpacken, Verbinden, Inspizieren, Testen und gemeinsame Verwalten isolierter Services.</p></div>
+<div class="architecture reveal"><div class="arch-flow">
+<div class="arch-node"><strong>web1</strong><small>Nginx · :8081</small></div><div class="arch-node"><strong>web2</strong><small>Nginx · :8082</small></div><div class="arch-node"><strong>api</strong><small>FastAPI · :8000</small></div><div class="arch-node"><strong>cache</strong><small>Redis · internal</small></div>
+</div><div class="arch-flow" style="margin-top:16px"><div class="connector">↳</div><div class="arch-node"><strong>labnet</strong><small>User-defined bridge network</small></div><div class="connector">↲</div></div>
+</div></div></section>
+<section><div class="container">
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">01 · Statische Web-Auslieferung</div><h3>Eine Portfolio-Website in einem eigenständigen Nginx-Container ausführen</h3>
+<p>Das Projekt beginnt mit einem einfachen, eigenständigen statischen Web-Deployment. Eine einzelne Portfolio-Datei <span class="mono">index.html</span> wird über einen Nginx-Container ausgeliefert.</p>
+<p>Dieser Schritt ist bewusst einfach gehalten: Zuerst soll der grundlegende Container-Workflow verstanden werden, bevor Shared Content, mehrere Container-Instanzen oder Compose hinzukommen. Die Website-Datei wird Nginx bereitgestellt, der Container gestartet, ein Host-Port veröffentlicht und die Seite anschließend im Browser verifiziert.</p>
+<p>Zu diesem Zeitpunkt gibt es nur <strong>eine Website-Datei und einen Web-Container</strong>. Shared Content zwischen mehreren Containern kommt erst im nächsten Schritt hinzu.</p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Umsetzung</div>
+<ul class="practice-list"><li>Prepared a standalone portfolio <span class="mono">index.html</span>.</li><li>Nginx als einzelnen containerisierten Webserver ausgeführt.</li><li>Container über einen Host-Port veröffentlicht.</li><li>Portfolio im Browser geöffnet und die Auslieferung verifiziert.</li></ul>
+<details class="evidence"><summary>Statisches Web-Deployment ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="Standalone Nginx portfolio deployment" class="evidence-image zoomable" data-caption="Standalone Nginx portfolio deployment" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/docker/static-web.png"/>
+<div class="missing-image" style="display:none">Bild hinzufügen:<br/><span class="mono">assets/screenshots/docker/static-web.png</span></div>
+<div class="evidence-caption">Initiale statische Website aus einem einzelnen Nginx-Container ausgeliefert.</div>
+</div>
+</div></details>
+</div></div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">02 · Shared Content &amp; mehrere Web-Instanzen</div><h3>Eine gemeinsame Website über mehrere Nginx-Container ausliefern</h3>
+<p>Nach dem eigenständigen Deployment wird die Umgebung auf mehrere Webserver-Instanzen erweitert. Zwei unabhängige Nginx-Container liefern dieselbe Website-Quelle aus <span class="mono">./site</span>.</p>
+<p>Dasselbe Host-Verzeichnis wird in beide Container gemountet. Dadurch teilen sie sich eine Content-Quelle, während ihre Container-Lebenszyklen unabhängig bleiben.</p>
+<pre>volumes:
+  - ./site:/usr/share/nginx/html:ro</pre>
+<p>Der <span class="mono">:ro</span> Mount hält die Website aus Sicht der Container read-only. Nginx kann die Dateien lesen und ausliefern, aber den Inhalt auf dem Host nicht verändern.</p>
+<p>Die Umsetzung wurde in zwei Schritten verifiziert: Beide Container wurden unabhängig mit <span class="mono">curl</span> abgefragt. Anschließend wurde die gemeinsame Website-Datei bearbeitet, um zu bestätigen, dass die aktualisierten Inhalte über beide Endpoints sichtbar wurden, ohne die Container neu zu bauen.</p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Verifikation</div>
+<ul class="practice-list"><li>Zwei unabhängige Nginx-Container gestartet.</li><li>Dasselbe <span class="mono">./site</span> Verzeichnis in beide Container gemountet.</li><li>Beide Container unabhängig mit <span class="mono">curl</span> verifiziert.</li><li>Gemeinsame Website-Datei bearbeitet.</li><li>Beide Endpoints neu abgefragt und dieselben aktualisierten Inhalte bestätigt.</li></ul>
+<details class="evidence"><summary>Shared-Content-Umsetzung ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="First Nginx bind mount" class="evidence-image zoomable" data-caption="First Nginx bind mount" src="../../assets/screenshots/docker/nginx-bind-mount.png"/>
+<div class="evidence-caption">Erster Nginx-Container mit dem gemeinsamen ./site-Verzeichnis.</div>
+</div><div style="margin-top:14px">
+<img alt="Second Nginx bind mount" class="evidence-image zoomable" data-caption="Second Nginx bind mount" src="../../assets/screenshots/docker/nginx-bind-mount2.png"/>
+<div class="evidence-caption">Zweiter Nginx-Container mit demselben gemeinsamen ./site-Verzeichnis.</div>
+</div>
+</div></details>
+<details class="evidence"><summary>curl-Verifikation beider Container ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="Curl verification first Nginx container" class="evidence-image zoomable" data-caption="Curl verification first Nginx container" src="../../assets/screenshots/docker/nginx-bind-mount3.png"/>
+<div class="evidence-caption">HTTP-Verifikation der ersten Nginx-Instanz.</div>
+</div><div style="margin-top:14px">
+<img alt="Curl verification second Nginx container" class="evidence-image zoomable" data-caption="Curl verification second Nginx container" src="../../assets/screenshots/docker/nginx-bind-mount4.png"/>
+<div class="evidence-caption">HTTP-Verifikation der zweiten Nginx-Instanz.</div>
+</div>
+</div></details>
+<details class="evidence"><summary>Shared-Content-Update-Test ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="Edited shared website file" class="evidence-image zoomable" data-caption="Edited shared website file" src="../../assets/screenshots/docker/nginx-bind-mount-change.png"/>
+<div class="evidence-caption">Die gemeinsame Website-Quelle wurde auf dem Host geändert.</div>
+</div><div style="margin-top:14px">
+<img alt="Updated shared content" class="evidence-image zoomable" data-caption="Updated shared content" src="../../assets/screenshots/docker/nginx-bind-mount-update.png"/>
+<div class="evidence-caption">Beide Endpoints lieferten den aktualisierten gemeinsamen Inhalt aus.</div>
+</div>
+</div></details>
+</div></div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">03 · FastAPI-Application</div><h3>Eine REST-basierte Server Inventory API</h3>
+<p>Das Backend bildet ein kleines Inventar von Infrastrukturservern ab und unterstützt das Abrufen, Erstellen und Löschen von Einträgen. FastAPI stellt außerdem unter <span class="mono">/docs</span> interaktive Dokumentation bereit, sodass die API ohne separaten Frontend-Client getestet werden kann.</p>
+<div class="table-wrap"><table><thead><tr><th>Methode</th><th>Endpoint</th><th>Zweck</th></tr></thead><tbody>
+<tr><td>GET</td><td class="mono">/health</td><td>Application-Status</td></tr>
+<tr><td>GET</td><td class="mono">/servers</td><td>Alle Server abrufen</td></tr>
+<tr><td>GET</td><td class="mono">/servers/{server_id}</td><td>Einen Server abrufen</td></tr>
+<tr><td>POST</td><td class="mono">/servers</td><td>Server erstellen</td></tr>
+<tr><td>DELETE</td><td class="mono">/servers/{server_id}</td><td>Server löschen</td></tr>
+</tbody></table></div>
+<p>Die Application unterstützt environment-basierte Runtime-Konfiguration über <span class="mono">HOST</span>, <span class="mono">PORT</span> und <span class="mono">APP_ENV</span>. Dadurch bleibt die Runtime-Konfiguration von der Application-Logik getrennt.</p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Verifikation</div>
+<ul class="practice-list"><li>Interaktive FastAPI-Dokumentation geöffnet.</li><li>Die Application über den Health Endpoint verifiziert.</li></ul>
+<details class="evidence"><summary>Praktische FastAPI-Verifikation ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="FastAPI interactive documentation" class="evidence-image zoomable" data-caption="FastAPI interactive documentation" src="../../assets/screenshots/docker/fastapi-api-docs.png"/>
+<div class="evidence-caption">Von FastAPI bereitgestellte interaktive API-Dokumentation.</div>
+</div><div style="margin-top:14px">
+<img alt="FastAPI health endpoint" class="evidence-image zoomable" data-caption="FastAPI health endpoint" src="../../assets/screenshots/docker/fastapi-api-healthEnd.png"/>
+<div class="evidence-caption">Health-Endpoint-Verifikation der laufenden API.</div>
+</div>
+</div></details>
+</div></div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">04 · Application-Konfiguration</div><h3>Runtime-Konfiguration außerhalb der Application-Logik halten</h3>
+<p>Die API liest <span class="mono">HOST</span>, <span class="mono">PORT</span> und <span class="mono">APP_ENV</span> aus der Runtime-Umgebung. Defaults halten die lokale Ausführung einfach, während Environment Variables denselben Code in anderen Deployments unterschiedlich konfigurieren können.</p>
+<p>Beispielsweise gibt <span class="mono">GET /health</span> den aktuellen Application-Status zusammen mit der aktiven Umgebung zurück. Dadurch wird die Konfiguration sichtbar, ohne umgebungsspezifische Werte fest in die Application zu schreiben.</p></div>
+<div class="practice-panel"><div class="practice-label">Runtime-Werte</div>
+<span class="code-inline mono">HOST=0.0.0.0</span>
+<span class="code-inline mono">PORT=8000</span>
+<span class="code-inline mono">APP_ENV=local</span>
+<details class="evidence"><summary>Application-Konfiguration ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="FastAPI environment configuration" class="evidence-image zoomable" data-caption="FastAPI environment configuration" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/docker/application-config.png"/>
+<div class="missing-image" style="display:none">Bild hinzufügen:<br/><span class="mono">assets/screenshots/docker/application-config.png</span></div>
+<div class="evidence-caption">Runtime-Konfiguration über Environment Variables und den Health Endpoint sichtbar gemacht.</div>
+</div>
+</div></details>
+</div></div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">05 · Datenmodell</div><h3>Persistenz bewusst einfach halten</h3>
+<p>Die aktuelle API speichert Server-Einträge in einem In-Memory-Python-Dictionary. Jeder Eintrag enthält <span class="mono">id</span>, <span class="mono">name</span>, <span class="mono">ip</span> und <span class="mono">env</span>.</p>
+<p>Das ist bewusst einfach gehalten, damit der Fokus auf API-Verhalten, Containerisierung und Service-Architektur bleibt. Da die Daten im Speicher liegen, bleiben sie nach einem Neustart des Prozesses oder einer Neuerstellung des Containers nicht erhalten.</p>
+<div class="callout"><strong>Umsetzungsgrenze:</strong> Redis existiert später in der Compose-Umgebung als interner Infrastruktur-Service, wird aber nicht als integrierter Application-Speicher dargestellt. Die API nutzt weiterhin ihre In-Memory-Datenschicht.</div></div>
+<div class="practice-panel"><div class="practice-label">Praktische Verifikation</div>
+<ul class="practice-list"><li>Server-Einträge über die API erstellt und abgefragt.</li><li>Mit dem leichtgewichtigen In-Memory-Server-Inventar gearbeitet.</li><li>Redis klar von der aktuellen Application-Datenschicht getrennt gehalten.</li></ul>
+<details class="evidence"><summary>Nachweis des API-Datenmodells ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="FastAPI in-memory data model" class="evidence-image zoomable" data-caption="FastAPI in-memory data model" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/docker/api-data-model.png"/>
+<div class="missing-image" style="display:none">Bild hinzufügen:<br/><span class="mono">assets/screenshots/docker/api-data-model.png</span></div>
+<div class="evidence-caption">Server-Einträge werden vom laufenden Application-Prozess verwaltet.</div>
+</div>
+</div></details>
+</div></div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">06 · FastAPI-Containerisierung</div><h3>Die FastAPI-Runtime unabhängig vom Host als Container bereitstellen</h3>
+<p>Nachdem Application-Verhalten und Datenmodell feststehen, wird der FastAPI-Service in ein eigenes Container Image überführt. Das Dockerfile verwendet <span class="mono">python:3.12-slim</span>, erstellt <span class="mono">/app</span> als Working Directory, installiert Abhängigkeiten aus <span class="mono">requirements.txt</span>, kopiert die Application und exponiert Port 8000.</p>
+<pre>FROM python:3.12-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY app.py .
+
+EXPOSE 8000
+CMD ["python", "app.py"]</pre>
+<p>Damit werden Python-Runtime und Abhängigkeiten Bestandteil des Container Images und müssen nicht auf dem Host vorinstalliert sein.</p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Verifikation</div>
+<ul class="practice-list"><li>FastAPI-Image-Definition im Dockerfile erstellt.</li><li>Image gebaut.</li><li>Containerisierte Application ausgeführt.</li><li>Container-Logs verifiziert.</li></ul>
+<details class="evidence"><summary>FastAPI-Containerisierungs-Workflow ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="FastAPI Dockerfile" class="evidence-image zoomable" data-caption="FastAPI Dockerfile" src="../../assets/screenshots/docker/dockerfile.png"/>
+<div class="evidence-caption">Dockerfile für das Python-3.12-Application-Image.</div>
+</div><div style="margin-top:14px">
+<img alt="Docker image build" class="evidence-image zoomable" data-caption="Docker image build" src="../../assets/screenshots/docker/dockerfile-build.png"/>
+<div class="evidence-caption">FastAPI-Image aus dem Dockerfile gebaut.</div>
+</div><div style="margin-top:14px">
+<img alt="Running FastAPI container" class="evidence-image zoomable" data-caption="Running FastAPI container" src="../../assets/screenshots/docker/dockerfile-run.png"/>
+<div class="evidence-caption">Containerisierten FastAPI-Service ausgeführt.</div>
+</div><div style="margin-top:14px">
+<img alt="FastAPI container logs" class="evidence-image zoomable" data-caption="FastAPI container logs" src="../../assets/screenshots/docker/dockerfile-logs.png"/>
+<div class="evidence-caption">Container-Logs zur Verifikation von Start und Runtime-Ausgabe verwendet.</div>
+</div>
+</div></details>
+</div></div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">07 · Docker-Compose-Orchestrierung</div><h3>Den gesamten Stack als eine Umgebung verwalten</h3>
+<p>Docker Compose definiert die Multi-Container-Umgebung deklarativ in einer Compose-Datei. Statt Container-Einstellungen manuell nachzubauen, hält die Datei Services, Build-/Image-Konfiguration, Ports, Volumes und Runtime-Beziehungen des Stacks fest.</p>
+<p>Die vollständige Umgebung wurde im Detached Mode gestartet und aus mehreren Perspektiven verifiziert. <span class="mono">docker compose ps</span> bestätigte den Service-Status, HTTP-Anfragen verifizierten die veröffentlichten Services und Redis wurde über eine erfolgreiche <span class="mono">PONG</span> Response geprüft. Abschließend wurde die Umgebung als eine Einheit gestoppt und entfernt.</p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Verifikation</div>
+<ul class="practice-list"><li>Compose-Datei erstellt.</li><li>Vollständigen Stack im Detached Mode gestartet.</li><li>Die funktionierende Compose-Umgebung über Service-Status, HTTP-Checks und Redis <span class="mono">PONG</span> verifiziert.</li><li>Stack als eine Einheit gestoppt und entfernt.</li></ul>
+<details class="evidence"><summary>Docker-Compose-Umsetzung ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="Docker Compose file" class="evidence-image zoomable" data-caption="Docker Compose file" src="../../assets/screenshots/docker/compose.png"/>
+<div class="evidence-caption">Compose-Definition für die Multi-Container-Umgebung.</div>
+</div><div style="margin-top:14px">
+<img alt="Docker Compose startup" class="evidence-image zoomable" data-caption="Docker Compose startup" src="../../assets/screenshots/docker/compose-execution.png"/>
+<div class="evidence-caption">Start des vollständigen Stacks im Detached Mode.</div>
+</div><div style="margin-top:14px">
+<img alt="Docker Compose verification" class="evidence-image zoomable" data-caption="Docker Compose verification" src="../../assets/screenshots/docker/compose-state.png"/>
+<div class="evidence-caption">Funktionierende Compose-Umgebung über Service-Status, HTTP-Checks und Redis verifiziert.</div>
+</div><div style="margin-top:14px">
+<img alt="Docker Compose shutdown" class="evidence-image zoomable" data-caption="Docker Compose shutdown" src="../../assets/screenshots/docker/compose-down.png"/>
+<div class="evidence-caption">Compose-Umgebung als eine Einheit gestoppt und entfernt.</div>
+</div>
+</div></details>
+</div></div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">08 · Docker Networking &amp; DNS</div><h3>Konnektivität und Namensauflösung testen auf <span class="mono">mynet</span></h3>
+<p>Diese Networking-Übung ist vom Compose-Stack getrennt. Ein benutzerdefiniertes Bridge Network mit dem Namen <span class="mono">mynet</span> wurde erstellt und zwei eigenständige Container — <span class="mono">nodeA</span> und <span class="mono">nodeB</span> — wurden damit verbunden.</p>
+<p>Da beide Container dasselbe benutzerdefinierte Netzwerk verwenden, können sie direkt miteinander kommunizieren. Dockers eingebettetes DNS ermöglicht außerdem die Namensauflösung über Container-Namen, statt sich auf fest eingetragene IP-Adressen zu verlassen.</p>
+<p>Das Netzwerk wurde inspiziert, um die Mitgliedschaft zu bestätigen, und die Namensauflösung wurde direkt zwischen beiden Nodes getestet.</p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Verifikation</div>
+<ul class="practice-list"><li><span class="mono">mynet</span> erstellt.</li><li><span class="mono">nodeA</span> und <span class="mono">nodeB</span> im selben Netzwerk gestartet.</li><li><span class="mono">mynet</span> inspiziert und bestätigt, dass beide Container verbunden waren.</li><li>Docker-DNS-Namensauflösung zwischen den Nodes verifiziert.</li></ul>
+<details class="evidence"><summary>mynet-Konnektivität &amp; DNS-Verifikation ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="nodeA and nodeB on mynet" class="evidence-image zoomable" data-caption="nodeA and nodeB on mynet" src="../../assets/screenshots/docker/mynet-run.png"/>
+<div class="evidence-caption">Eigenständige Container im benutzerdefinierten mynet Bridge Network.</div>
+</div><div style="margin-top:14px">
+<img alt="Docker mynet inspection" class="evidence-image zoomable" data-caption="Docker mynet inspection" src="../../assets/screenshots/docker/mynet--inspect.png"/>
+<div class="evidence-caption">Netzwerk-Inspektion bestätigt die Node-Mitgliedschaft.</div>
+</div><div style="margin-top:14px">
+<img alt="Docker DNS resolution" class="evidence-image zoomable" data-caption="Docker DNS resolution" src="../../assets/screenshots/docker/dns-resolution.png"/>
+<div class="evidence-caption">Container-Namensauflösung über Dockers eingebettetes DNS.</div>
+</div>
+</div></details>
+</div></div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">09 · Netzwerkisolation</div><h3>Nachweisen, dass DNS und Konnektivität an Netzwerkgrenzen enden</h3>
+<p>Ein zweites benutzerdefiniertes Netzwerk, <span class="mono">isolated-net</span>, platziert einen weiteren Container außerhalb von <span class="mono">mynet</span>. Damit wird das Gegenteil des vorherigen Tests geprüft: Container ohne gemeinsames Docker-Netzwerk sollen nicht automatisch kommunizieren oder sich über Docker DNS auflösen können.</p>
+<p>Der fehlgeschlagene Cross-Network-Kommunikations- und Namensauflösungsversuch dient daher als Nachweis der Isolation. Docker Networking stellt nicht nur Konnektivität bereit, sondern auch klare Kommunikationsgrenzen.</p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Verifikation</div>
+<ul class="practice-list"><li>Separates isoliertes Docker-Netzwerk erstellt.</li><li>Test-Container außerhalb von <span class="mono">mynet</span> platziert.</li><li>Cross-Network-Kommunikation und DNS-Auflösung versucht.</li><li>Bestätigt, dass DNS/Konnektivität über die isolierte Netzwerkgrenze hinweg nicht funktionierte.</li></ul>
+<details class="evidence"><summary>Test der Netzwerkisolation ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="Docker network isolation and DNS failure" class="evidence-image zoomable" data-caption="Docker network isolation and DNS failure" src="../../assets/screenshots/docker/network-isolation.png"/>
+<div class="evidence-caption">Fehlgeschlagene Cross-Network-Konnektivität bzw. DNS-Auflösung zeigt die Isolationsgrenze.</div>
+</div>
+</div></details>
+</div></div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">10 · Verifikation &amp; Troubleshooting</div><h3>Application-Verhalten, Service-Status und Runtime-Ausgabe prüfen</h3>
+<p>Das Projekt wurde auf mehreren Ebenen verifiziert, statt einen laufenden Container bereits als Beweis für eine funktionierende Gesamtumgebung zu betrachten. Ein HTTP-Health-Request prüfte das Application-Verhalten, <span class="mono">docker compose ps</span> zeigte den Status der Compose-Services und Container-Logs machten das Runtime-Verhalten des FastAPI-Services sichtbar.</p>
+<p>These checks answer three useful troubleshooting questions: <strong>Antwortet die Application?</strong>, <strong>Laufen die erwarteten Container?</strong>, and <strong>Was meldet die Application beim Start und während der Ausführung?</strong></p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Verifikation</div>
+<span class="code-inline mono">curl http://localhost:8000/health</span>
+<span class="code-inline mono">docker compose ps</span>
+<span class="code-inline mono">docker logs &lt;fastapi-container&gt;</span>
+<details class="evidence"><summary>Verifikation &amp; Troubleshooting ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="FastAPI health curl verification" class="evidence-image zoomable" data-caption="FastAPI health curl verification" src="../../assets/screenshots/docker/curl-health.png"/>
+<div class="evidence-caption">HTTP-Health-Request zur Verifikation des Application-Verhaltens.</div>
+</div><div style="margin-top:14px">
+<img alt="Docker Compose service state" class="evidence-image zoomable" data-caption="Docker Compose service state" src="../../assets/screenshots/docker/compose-ps.png"/>
+<div class="evidence-caption">docker compose ps zur Prüfung des laufenden Service-Status.</div>
+</div><div style="margin-top:14px">
+<img alt="FastAPI container logs" class="evidence-image zoomable" data-caption="FastAPI container logs" src="../../assets/screenshots/docker/dockerfile-logs.png"/>
+<div class="evidence-caption">Runtime-Logs zur Verifikation und Fehlersuche bei der Application-Ausführung.</div>
+</div>
+</div></details>
+</div></div></div>
+</div></section>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Was ich gelernt habe</div><h2>Docker ist als Architektur wertvoller als als einzelner Befehl.</h2></div>
+<p>Das Projekt verband Image-Erstellung, Runtime-Isolation, Read-only Bind Mounts, mehrere Service-Instanzen, API-Containerisierung, Compose-Orchestrierung, DNS-basierte Discovery, Netzwerkisolation und Troubleshooting. Der schrittweise Aufbau von einzelnen Containern hin zu einer integrierten Umgebung machte die Zusammenhänge zwischen diesen Konzepten deutlich greifbarer.</p></div></div></section>
+</main>
+<footer class="footer"><div class="container footer-inner">
+<div class="footer-brand"><img alt="" src="../../assets/ss-logo.svg"/><div><strong>SS — Sajeda Salem</strong><br/><span>Build. Connect. Automate. Improve.</span></div></div>
+<div>Junior DevOps &amp; Cloud Engineer</div></div></footer>
+<script src="../../assets/script.js"></script>
+<div aria-hidden="true" aria-label="Expanded project screenshot" class="image-lightbox" id="imageLightbox" role="dialog">
+<div class="image-lightbox-dialog">
+<button aria-label="Close image" class="image-lightbox-close" type="button">×</button>
+<img alt="" src=""/>
+<div class="image-lightbox-caption"></div>
+</div>
+</div>
+</body></html>

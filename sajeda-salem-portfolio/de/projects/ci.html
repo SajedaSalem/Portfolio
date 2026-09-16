@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html lang="de"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Server Inventory API — GitHub Actions CI Pipeline — Sajeda Salem</title><link href="../../assets/ss-logo.svg" rel="icon"/><link href="../../assets/styles.css" rel="stylesheet"/></head><body>
+<header class="nav"><div class="container nav-inner">
+<a class="brand" href="../index.html"><img alt="SS logo" src="../../assets/ss-logo.svg"/><span>Sajeda Salem</span></a>
+<nav aria-label="Main navigation" class="nav-links">
+<a href="../index.html#about">Über mich</a><a href="../index.html#skills">Kenntnisse</a><a href="../index.html#projects">Projekte</a><a class="nav-cta" href="../index.html#contact">Kontakt</a>
+<span class="lang-switch"><a href="../../projects/ci.html">EN</a><span>|</span><a class="active-lang" href="ci.html">DE</a></span></nav></div></header>
+<main><header class="project-hero"><div class="container"><div class="breadcrumb"><a href="../index.html#projects">← Ausgewählte Projekte</a></div><div class="section-kicker">Continuous Integration · Automated Testing · Code Quality · Runtime-Verifikation</div><h1>Server Inventory API — GitHub Actions CI Pipeline</h1><p class="lede">Eine Python-Flask-API mit einem reproduzierbaren Continuous-Integration-Workflow aus automatisierten Code-Quality-Checks, Multi-Version-Tests, JUnit-Artefakten, Runtime Smoke Tests und gezielter Failure Verification.</p><div class="project-actions"><a class="btn btn-secondary" href="https://github.com/SajedaSalem/-server-inventory-api" rel="noreferrer" target="_blank">Repository ansehen ↗</a><a class="btn btn-secondary" href="../index.html#contact">Kontakt</a></div></div></header>
+<section><div class="container">
+<div class="section-head reveal"><div><div class="section-kicker">Projektziel</div><h2>Validierung direkt ins Repository verlagern.</h2></div>
+<p>Eine Testsuite ist nur dann wirklich nützlich, wenn sie konsistent ausgeführt wird. Dieses Projekt verlagert die Validierung aus der lokalen Entwicklerumgebung in einen reproduzierbaren GitHub-Actions-Workflow. Relevante Änderungen werden auf frischen Runnern durch Environment Setup, Linting, automatisierte Tests, Multi-Version-Kompatibilität, Artefakt-Speicherung und Runtime Smoke Testing geprüft.</p></div>
+<div class="architecture reveal"><div class="arch-flow"><div class="arch-node"><strong>Code-Änderung</strong><small>push · PR · manual</small></div><div class="connector">→</div><div class="arch-node"><strong>Test-Matrix</strong><small>Python 3.11 + 3.12</small></div><div class="connector">→</div><div class="arch-node"><strong>JUnit-Artefakt</strong><small>report.xml</small></div><div class="connector">→</div><div class="arch-node"><strong>Smoke-Job</strong><small>HTTP-Verifikation</small></div><div class="connector">→</div><div class="arch-node"><strong>CI-Ergebnis</strong><small>erfolgreich / fehlgeschlagen</small></div></div></div>
+</div></section>
+<section><div class="container">
+<div class="section-head reveal"><div><div class="section-kicker">Getestete Application</div><h2>Eine kleine Flask-API mit CI-freundlichen Runtime Checks.</h2></div>
+<p>Die Server Inventory API verwaltet ein JSON-basiertes Inventar mit neun Beispielservern aus Production, Staging und Development. Die Inventory-Logik ist von der HTTP-Schicht getrennt, sodass sowohl die Application-Logik als auch das API-Verhalten unabhängig getestet werden können. Health-, Readiness- und Version-Endpoints geben der Smoke Stage anschließend konkrete Runtime-Bedingungen für die Verifikation.</p></div>
+<div class="table-wrap reveal"><table><thead><tr><th>Endpoint</th><th>Zweck</th></tr></thead><tbody>
+<tr><td class="mono">GET /healthz</td><td>Bestätigt, dass die Application läuft</td></tr><tr><td class="mono">GET /readyz</td><td>Bestätigt, dass das Inventar geladen ist</td></tr><tr><td class="mono">GET /version</td><td>Gibt die konfigurierte CI-Build-Version zurück</td></tr><tr><td class="mono">GET /servers</td><td>Gibt verfügbare Server zurück</td></tr><tr><td class="mono">GET /servers/&lt;name&gt;</td><td>Gibt einen bestimmten Server zurück</td></tr><tr><td class="mono">GET /stats</td><td>Gibt Inventarstatistiken zurück</td></tr>
+</tbody></table></div></div></section>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Workflow-Trigger</div><h2>Automatische Quality Gates mit manueller Kontrolle.</h2></div>
+<p>Ein Push auf <span class="mono">main</span> validiert Code, der den Branch erreicht. Pull Requests mit Ziel <span class="mono">main</span> werden vor dem Merge geprüft, und <span class="mono">workflow_dispatch</span> stellt dieselbe Validierung bei Bedarf direkt über die GitHub-Actions-Oberfläche bereit.</p></div>
+<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Triggers</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml" rel="noreferrer" target="_blank">YAML ansehen</a><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34065989942/workflow" rel="noreferrer" target="_blank">CI-Lauf ansehen ↗</a></div></div><pre>name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:</pre></div>
+</div></section>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Runner &amp; Python-Umgebung</div><h2>Reproduzierbares Setup bei jedem Lauf.</h2></div>
+<p>Jeder Lauf startet auf einem von GitHub bereitgestellten <span class="mono">ubuntu-latest</span> Runner. Das Repository wird ausgecheckt, die benötigte Python-Version installiert und die Projektabhängigkeiten werden aus <span class="mono">requirements.txt</span> geladen. Pip-Caching ermöglicht es späteren Läufen, bereits heruntergeladene Abhängigkeiten wiederzuverwenden. Da dieses Setup in CI definiert ist, hängt die Validierung nicht davon ab, welche Pakete zufällig auf dem Entwicklerrechner installiert sind.</p></div>
+<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Runner &amp; Python setup</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml" rel="noreferrer" target="_blank">YAML ansehen</a><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34067258033/workflow" rel="noreferrer" target="_blank">CI-Lauf ansehen ↗</a></div></div><pre>runs-on: ubuntu-latest
+steps:
+  - uses: actions/checkout@v4
+
+  - uses: actions/setup-python@v5
+    with:
+      python-version: ${{ matrix.python-version }}
+      cache: "pip"
+
+  - run: pip install -r requirements.txt</pre></div>
+</div></section>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Codequalität &amp; automatisierte Tests</div><h2>Früh bei Qualitätsproblemen stoppen, danach Verhalten verifizieren.</h2></div>
+<div>
+<p>Die Reihenfolge der Validierung ist bewusst gewählt. Bevor die Testsuite startet, führt <span class="mono">flake8</span> statische Code-Quality-Checks anhand der Linting-Konfiguration des Projekts aus. Verstößt der Quellcode gegen diese Regeln, stoppt die Pipeline bereits am Quality Gate, statt mit Application-Tests für Code fortzufahren, der die erste Validierung nicht bestanden hat.</p>
+<p>Nach erfolgreichem Linting führt <span class="mono">pytest</span> die automatisierten Tests aus. Die Option <span class="mono">-q</span> hält die CI-Ausgabe kompakt, während <span class="mono">--junitxml=report.xml</span> einen strukturierten JUnit-Report erzeugt, der über die Lebensdauer des temporären Runners hinaus gespeichert werden kann. Damit prüft die Stage sowohl Codequalität als auch Application-Verhalten und erzeugt gleichzeitig diagnostische Informationen für eine spätere Auswertung.</p>
+</div></div>
+<div class="architecture reveal"><div class="arch-flow"><div class="arch-node"><strong>Quellcode</strong></div><div class="connector">→</div><div class="arch-node"><strong>flake8</strong><small>Quality Gate</small></div><div class="connector">→</div><div class="arch-node"><strong>pytest</strong><small>Application-Tests</small></div><div class="connector">→</div><div class="arch-node"><strong>report.xml</strong><small>JUnit-Ergebnis</small></div></div></div>
+<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Lint &amp; test</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml" rel="noreferrer" target="_blank">YAML ansehen</a><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34067258033/workflow" rel="noreferrer" target="_blank">CI-Lauf ansehen ↗</a></div></div><pre>- name: Lint with flake8
+  run: flake8 .
+
+- name: Run tests
+  run: pytest -q --junitxml=report.xml</pre></div>
+</div></section>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Tests mit mehreren Versionen</div><h2>Eine Job-Definition, zwei Python-Versionen.</h2></div>
+<p>Anstatt den gesamten Test-Job zu duplizieren, erzeugt eine Matrix-Strategie aus einer einzigen Definition unabhängige Läufe für Python 3.11 und 3.12. <span class="mono">fail-fast: false</span> ist für die Diagnose hilfreich, weil ein Fehler in einer Version den anderen Matrix-Lauf nicht abbricht; beide Kompatibilitätsergebnisse bleiben sichtbar.</p></div>
+<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Python matrix</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml" rel="noreferrer" target="_blank">YAML ansehen</a><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34070245981/workflow" rel="noreferrer" target="_blank">CI-Lauf ansehen ↗</a></div></div><pre>strategy:
+  fail-fast: false
+  matrix:
+    python-version:
+      - "3.11"
+      - "3.12"
+
+python-version: ${{ matrix.python-version }}</pre></div>
+<div class="grid-2 reveal"><div class="info-card"><div class="metric">3.11</div><strong>flake8 → pytest</strong></div><div class="info-card"><div class="metric">3.12</div><strong>flake8 → pytest</strong></div></div>
+</div></section>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Testberichte &amp; Artefakte</div><h2>Nachweise erhalten, auch nachdem der Runner beendet ist.</h2></div>
+<p>Jeder Testlauf erzeugt <span class="mono">report.xml</span>. Der Report wird als GitHub-Actions-Artefakt hochgeladen, sodass das strukturierte Testergebnis auch nach Ende des temporären Runners verfügbar bleibt. Der Upload verwendet bewusst <span class="mono">if: always()</span>: Gerade bei einem fehlgeschlagenen Testlauf sind diagnostische Informationen besonders wertvoll, daher soll das Artefakt nicht verschwinden, nur weil pytest einen Fehler zurückgegeben hat.</p></div>
+<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Test artifact</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml" rel="noreferrer" target="_blank">YAML ansehen</a><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34071375352/workflow" rel="noreferrer" target="_blank">CI-Lauf ansehen ↗</a></div></div><pre>- name: Upload test report
+  if: always()
+  uses: actions/upload-artifact@v4
+  with:
+    name: test-report
+    path: report.xml</pre></div>
+</div></section>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Runtime Smoke Tests</div><h2>Bestehende Tests bedeuten nicht automatisch, dass die Application erfolgreich startet.</h2></div>
+<p>Der zweite Job, <span class="mono">smoke</span>, startet erst, nachdem der Test-Job erfolgreich war. Er läuft auf einem weiteren frischen Runner und kann sich deshalb nicht auf die in der Test Stage vorbereitete Umgebung verlassen. Der Job wiederholt das notwendige Setup, startet die Flask API im Hintergrund und kommuniziert anschließend per HTTP mit der laufenden Application. Damit wird nicht nur geprüft, ob Funktionen in Tests korrekt arbeiten, sondern auch, ob der Service in einer sauberen Runtime-Umgebung tatsächlich startet und antwortet.</p></div>
+<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Start API &amp; health check</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml" rel="noreferrer" target="_blank">YAML ansehen</a><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34073700026" rel="noreferrer" target="_blank">CI-Lauf ansehen ↗</a></div></div><pre>smoke:
+  needs: test
+  runs-on: ubuntu-latest
+
+- name: Start the API
+  run: |
+    python app.py &amp;
+    sleep 5
+
+- name: Check health endpoint
+  run: |
+    code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:5000/healthz)
+    echo "got $code"
+    test "$code" = "200"</pre></div>
+<div class="grid-3 reveal"><article class="info-card"><div class="section-kicker">Health</div><h3>GET /healthz</h3><p>Prüft, ob die Application erreichbar ist, und erwartet ausdrücklich HTTP 200.</p></article><article class="info-card"><div class="section-kicker">Readiness</div><h3>GET /readyz</h3><p>Prüft zusätzlich, ob das erwartete Inventar mit neun Servern geladen wurde.</p></article><article class="info-card"><div class="section-kicker">Runtime-Unterscheidung</div><h3>Running ≠ Ready</h3><p>Die beiden Endpoints unterscheiden damit zwischen einem laufenden Prozess und einer Application, die mit ihren Daten tatsächlich bereit ist.</p></article></div>
+</div></section>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">CI-Build-Identifikation</div><h2>Die laufende Application mit ihrem CI-Lauf verknüpfen.</h2></div>
+<p>Während der Smoke Stage wird die GitHub-Run-Nummer über <span class="mono">APP_VERSION</span> an die Application übergeben. Der <span class="mono">/version</span> Endpoint wird anschließend auf denselben Wert geprüft. Dadurch entsteht eine einfache Verbindung zwischen einem GitHub-Actions-Lauf und der zugehörigen Application-Instanz, ohne eine neue Version direkt im Quellcode zu hardcoden.</p></div>
+<div class="yaml-card reveal"><div class="yaml-head"><div class="yaml-file"><span class="yaml-dot"></span><div><strong>ci.yml · Build-Identifikation</strong><div class="yaml-path">.github/workflows/ci.yml</div></div></div><div class="yaml-actions"><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/blob/main/.github/workflows/ci.yml" rel="noreferrer" target="_blank">YAML ansehen</a><a class="mini-btn" href="https://github.com/SajedaSalem/-server-inventory-api/actions/runs/34075680580/workflow" rel="noreferrer" target="_blank">CI-Lauf ansehen ↗</a></div></div><pre>env:
+  APP_VERSION: ci-${{ github.run_number }}
+
+# Runtime check:
+GET /version  →  ci-${{ github.run_number }}</pre></div>
+</div></section>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Kontrollierter Fehlertest</div><h2>Sicherstellen, dass CI eine fehlerhafte Änderung ablehnen kann.</h2></div>
+<p>Eine CI-Pipeline sollte Fehlererkennung genauso deutlich demonstrieren wie erfolgreiche Läufe. Auf einem separaten <span class="mono">break-it</span> Branch wurde eine Test-Erwartung absichtlich geändert, sodass die Suite fehlschlug. Anschließend wurde für diesen Branch ein Pull Request gegen <span class="mono">main</span> geöffnet. GitHub Actions erkannte die Regression, zeigte einen fehlgeschlagenen Check im Pull-Request-Interface und die Änderung wurde geschlossen, ohne gemergt zu werden.</p></div>
+<div class="failure-flow reveal"><div class="failure-step"><strong>break-it Branch</strong><br/><small>absichtlich geänderter Test</small></div><div class="failure-arrow">→</div><div class="failure-step"><strong>Pull Request → main</strong><br/><small>CI-Validierung startet</small></div><div class="failure-arrow">→</div><div class="failure-step bad"><strong>CI-Check fehlgeschlagen</strong><br/><small>Regression vor dem Merge erkannt</small></div></div>
+<div class="grid-2 reveal">
+<details class="evidence"><summary>Absichtlich fehlerhafte Änderung ansehen</summary><div class="evidence-body">
+<img alt="Intentional breaking test change" class="evidence-image zoomable" data-caption="Intentional breaking test change" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/ci/break-it-change.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/ci/break-it-change.png</span></div><div class="evidence-caption">Absichtlich eingeführte Regression auf dem break-it Branch.</div>
+</div></details>
+<details class="evidence"><summary>Fehlgeschlagenen Pull Request ansehen</summary><div class="evidence-body">
+<img alt="Failed pull request CI check" class="evidence-image zoomable" data-caption="Failed pull request CI check" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/ci/failed-pull-request.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/ci/failed-pull-request.png</span></div><div class="evidence-caption">Regression vor dem Merge durch GitHub Actions erkannt.</div>
+</div></details>
+</div>
+<div class="callout reveal" style="margin-top:20px"><strong>Fehlernachweis:</strong> Der erste Screenshot dokumentiert die absichtlich auf <span class="mono">break-it</span> eingeführte Regressioneingeführte Regression; der zweite zeigt, wie GitHub Actions diese Änderung bereits auf Pull-Request-Ebene erkennt. Erfolgreiche Workflow-Läufe bleiben über die Live-CI-Links auf dieser Seite direkt nachvollziehbar.</div>
+</div></section>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Technische Entscheidungen</div><h2>Warum die Pipeline so aufgebaut ist.</h2></div><p>Der Workflow trennt Verantwortlichkeiten, sodass Codequalität, Kompatibilität, diagnostische Reports und Runtime-Verhalten jeweils gezielt geprüft werden, statt alles in einem undurchsichtigen „Build“-Schritt zusammenzufassen.</p></div>
+<div class="grid-2 reveal"><article class="decision-card"><h3>Getrennte Test- und Smoke-Jobs</h3><p>Tests validieren Logik und API-Verhalten. Ein zweiter frischer Runner belegt zusätzlich, dass die Application tatsächlich starten und echte HTTP-Anfragen beantworten kann.</p></article><article class="decision-card"><h3>Matrix statt duplizierter Jobs</h3><p>Eine wartbare Workflow-Definition erzeugt unabhängige Kompatibilitätsergebnisse für Python 3.11 und 3.12.</p></article><article class="decision-card"><h3>Artefakte bleiben auch bei Fehlern erhalten</h3><p>Die JUnit-Ausgabe bleibt auch bei fehlgeschlagenen Tests erhalten und liefert damit weiterhin nützliche Informationen für das Troubleshooting.</p></article><article class="decision-card"><h3>Runtime-Metadaten über Environment-Konfiguration</h3><p>Die CI-Run-Nummer erreicht die Application über Konfiguration statt über Änderungen am Quellcode.</p></article></div>
+</div></section>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Was ich gelernt habe</div><h2>CI ist ein Validierungssystem und nicht nur ein grüner Haken.</h2></div>
+<p>Das Projekt verband Repository-Events, saubere Runner, Linting, automatisierte Tests, Matrix-Kompatibilität, Artefakt-Management, Job-Abhängigkeiten, environment-basierte Konfiguration und HTTP Smoke Testing zu einem reproduzierbaren Prozess. Besonders wertvoll war der kontrollierte Fehlertest, weil er zeigte, dass die Pipeline eine ungültige Änderung tatsächlich erkennen und sichtbar machen kann — statt nur erfolgreiche Builds zu demonstrieren.</p></div>
+<div class="callout reveal"><strong>Ausblick:</strong> Security Scanning → Container Image Build → automatisiertes Deployment. Diese Punkte sind als zukünftige Erweiterungen gedacht und werden nicht als bereits umgesetzt dargestellt.</div></div></section>
+</main>
+<footer class="footer"><div class="container footer-inner">
+<div class="footer-brand"><img alt="" src="../../assets/ss-logo.svg"/><div><strong>SS — Sajeda Salem</strong><br/><span>Build. Connect. Automate. Improve.</span></div></div>
+<div>Junior DevOps &amp; Cloud Engineer</div></div></footer>
+<script src="../../assets/script.js"></script>
+<div aria-hidden="true" aria-label="Expanded project screenshot" class="image-lightbox" id="imageLightbox" role="dialog">
+<div class="image-lightbox-dialog">
+<button aria-label="Close image" class="image-lightbox-close" type="button">×</button>
+<img alt="" src=""/>
+<div class="image-lightbox-caption"></div>
+</div>
+</div>
+</body></html>

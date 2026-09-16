@@ -1,12 +1,11 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Dockerized DevOps Environment — Sajeda Salem</title><link rel="icon" href="../assets/ss-logo.svg"><link rel="stylesheet" href="../assets/styles.css"></head><body>
-
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Dockerized DevOps Environment — Sajeda Salem</title><link href="../assets/ss-logo.svg" rel="icon"/><link href="../assets/styles.css" rel="stylesheet"/></head><body>
 <header class="nav"><div class="container nav-inner">
-<a class="brand" href="../index.html"><img src="../assets/ss-logo.svg" alt="SS logo"><span>Sajeda Salem</span></a>
-<nav class="nav-links" aria-label="Main navigation">
-<a href="../index.html#about">About</a><a href="../index.html#skills">Skills</a><a href="../index.html#projects">Projects</a><a href="../index.html#contact" class="nav-cta">Contact</a>
-</nav></div></header>
-
+<a class="brand" href="../index.html"><img alt="SS logo" src="../assets/ss-logo.svg"/><span>Sajeda Salem</span></a>
+<nav aria-label="Main navigation" class="nav-links">
+<a href="../index.html#about">About</a><a href="../index.html#skills">Skills</a><a href="../index.html#projects">Projects</a><a class="nav-cta" href="../index.html#contact">Contact</a>
+<span class="lang-switch"><a class="active-lang" href="docker.html">EN</a><span>|</span><a href="../de/projects/docker.html">DE</a></span></nav></div></header>
 <main><header class="project-hero"><div class="container"><div class="breadcrumb"><a href="../index.html#projects">← Selected Projects</a></div><div class="section-kicker">Containers · Service Orchestration · Networking · Infrastructure Concepts</div><h1>Dockerized DevOps Environment</h1><p class="lede">A containerized application and infrastructure environment that develops from standalone services into a connected multi-container stack, with each concept verified through hands-on deployment, networking and troubleshooting.</p><div class="project-actions"><a class="btn btn-secondary" href="../index.html#contact">Contact</a></div></div></header>
 <section><div class="container">
 <div class="section-head reveal"><div><div class="section-kicker">Project goal</div><h2>Build containers as connected parts of a system.</h2></div>
@@ -15,10 +14,7 @@
 <div class="arch-node"><strong>web1</strong><small>Nginx · :8081</small></div><div class="arch-node"><strong>web2</strong><small>Nginx · :8082</small></div><div class="arch-node"><strong>api</strong><small>FastAPI · :8000</small></div><div class="arch-node"><strong>cache</strong><small>Redis · internal</small></div>
 </div><div class="arch-flow" style="margin-top:16px"><div class="connector">↳</div><div class="arch-node"><strong>labnet</strong><small>User-defined bridge network</small></div><div class="connector">↲</div></div>
 <div class="diagram-caption">Compose architecture shown as a visual service map instead of the ASCII diagrams from the project documentation.</div></div></div></section>
-
-
 <section><div class="container">
-
 <div class="case-block reveal"><div class="case-layout">
 <div><div class="section-kicker">01 · Static web delivery</div><h3>Run a portfolio website inside a standalone Nginx container</h3>
 <p>The project first starts with a simple, independent static web deployment. A single portfolio <span class="mono">index.html</span> file is served through one Nginx container.</p>
@@ -28,15 +24,14 @@
 <ul class="practice-list"><li>Prepared a standalone portfolio <span class="mono">index.html</span>.</li><li>Ran Nginx as a single containerized web server.</li><li>Published the container through a host port.</li><li>Opened the portfolio in the browser to verify delivery.</li></ul>
 <details class="evidence"><summary>View standalone static web deployment</summary><div class="evidence-body">
 <div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/static-web.png" alt="Standalone Nginx portfolio deployment" data-caption="Standalone Nginx portfolio deployment" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
-<div class="missing-image" style="display:none">Add image:<br><span class="mono">assets/screenshots/docker/static-web.png</span></div>
+<img alt="Standalone Nginx portfolio deployment" class="evidence-image zoomable" data-caption="Standalone Nginx portfolio deployment" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../assets/screenshots/docker/static-web.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/docker/static-web.png</span></div>
 <div class="evidence-caption">Initial static website served from a single Nginx container.</div>
 </div>
 </div></details>
 </div></div></div>
-
 <div class="case-block reveal"><div class="case-layout">
-<div><div class="section-kicker">02 · Shared content & multiple web instances</div><h3>Serve one shared website through multiple Nginx containers</h3>
+<div><div class="section-kicker">02 · Shared content &amp; multiple web instances</div><h3>Serve one shared website through multiple Nginx containers</h3>
 <p>After the standalone deployment, the project moves to multiple web-server instances. Two independent Nginx containers serve the same website source from <span class="mono">./site</span>.</p>
 <p>The same host directory is mounted into both containers, allowing them to share one source of content while keeping their container lifecycles independent.</p>
 <pre>volumes:
@@ -47,33 +42,32 @@
 <ul class="practice-list"><li>Started two independent Nginx containers.</li><li>Mounted the same <span class="mono">./site</span> directory into both containers.</li><li>Verified both containers independently with <span class="mono">curl</span>.</li><li>Edited the shared website file.</li><li>Refreshed both endpoints and confirmed the same updated content.</li></ul>
 <details class="evidence"><summary>View shared-content implementation</summary><div class="evidence-body">
 <div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/nginx-bind-mount.png" alt="First Nginx bind mount" data-caption="First Nginx bind mount">
+<img alt="First Nginx bind mount" class="evidence-image zoomable" data-caption="First Nginx bind mount" src="../assets/screenshots/docker/nginx-bind-mount.png"/>
 <div class="evidence-caption">First Nginx container using the shared ./site directory.</div>
 </div><div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/nginx-bind-mount2.png" alt="Second Nginx bind mount" data-caption="Second Nginx bind mount">
+<img alt="Second Nginx bind mount" class="evidence-image zoomable" data-caption="Second Nginx bind mount" src="../assets/screenshots/docker/nginx-bind-mount2.png"/>
 <div class="evidence-caption">Second Nginx container using the same shared ./site directory.</div>
 </div>
 </div></details>
 <details class="evidence"><summary>View curl verification on both containers</summary><div class="evidence-body">
 <div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/nginx-bind-mount3.png" alt="Curl verification first Nginx container" data-caption="Curl verification first Nginx container">
+<img alt="Curl verification first Nginx container" class="evidence-image zoomable" data-caption="Curl verification first Nginx container" src="../assets/screenshots/docker/nginx-bind-mount3.png"/>
 <div class="evidence-caption">HTTP verification of the first Nginx instance.</div>
 </div><div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/nginx-bind-mount4.png" alt="Curl verification second Nginx container" data-caption="Curl verification second Nginx container">
+<img alt="Curl verification second Nginx container" class="evidence-image zoomable" data-caption="Curl verification second Nginx container" src="../assets/screenshots/docker/nginx-bind-mount4.png"/>
 <div class="evidence-caption">HTTP verification of the second Nginx instance.</div>
 </div>
 </div></details>
 <details class="evidence"><summary>View shared-content update test</summary><div class="evidence-body">
 <div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/nginx-bind-mount-change.png" alt="Edited shared website file" data-caption="Edited shared website file">
+<img alt="Edited shared website file" class="evidence-image zoomable" data-caption="Edited shared website file" src="../assets/screenshots/docker/nginx-bind-mount-change.png"/>
 <div class="evidence-caption">The shared website source was modified on the host.</div>
 </div><div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/nginx-bind-mount-update.png" alt="Updated shared content" data-caption="Updated shared content">
+<img alt="Updated shared content" class="evidence-image zoomable" data-caption="Updated shared content" src="../assets/screenshots/docker/nginx-bind-mount-update.png"/>
 <div class="evidence-caption">Both endpoints served the updated shared content.</div>
 </div>
 </div></details>
 </div></div></div>
-
 <div class="case-block reveal"><div class="case-layout">
 <div><div class="section-kicker">03 · FastAPI application</div><h3>A REST-based Server Inventory API</h3>
 <p>The backend models a small inventory of infrastructure servers and supports retrieving, creating and deleting records. FastAPI also provides interactive documentation at <span class="mono">/docs</span>, allowing the API to be explored without a separate frontend client.</p>
@@ -89,15 +83,14 @@
 <ul class="practice-list"><li>Opened the interactive FastAPI documentation.</li><li>Verified the application through the health endpoint.</li></ul>
 <details class="evidence"><summary>View FastAPI practical verification</summary><div class="evidence-body">
 <div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/fastapi-api-docs.png" alt="FastAPI interactive documentation" data-caption="FastAPI interactive documentation">
+<img alt="FastAPI interactive documentation" class="evidence-image zoomable" data-caption="FastAPI interactive documentation" src="../assets/screenshots/docker/fastapi-api-docs.png"/>
 <div class="evidence-caption">Interactive API documentation provided by FastAPI.</div>
 </div><div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/fastapi-api-healthEnd.png" alt="FastAPI health endpoint" data-caption="FastAPI health endpoint">
+<img alt="FastAPI health endpoint" class="evidence-image zoomable" data-caption="FastAPI health endpoint" src="../assets/screenshots/docker/fastapi-api-healthEnd.png"/>
 <div class="evidence-caption">Health endpoint verification from the running API.</div>
 </div>
 </div></details>
 </div></div></div>
-
 <div class="case-block reveal"><div class="case-layout">
 <div><div class="section-kicker">04 · Application configuration</div><h3>Keep runtime configuration outside the application logic</h3>
 <p>The API can read <span class="mono">HOST</span>, <span class="mono">PORT</span> and <span class="mono">APP_ENV</span> from the runtime environment. Defaults keep local execution simple, while environment variables allow the same application code to behave differently when deployed elsewhere.</p>
@@ -108,13 +101,12 @@
 <span class="code-inline mono">APP_ENV=local</span>
 <details class="evidence"><summary>View application configuration</summary><div class="evidence-body">
 <div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/application-config.png" alt="FastAPI environment configuration" data-caption="FastAPI environment configuration" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
-<div class="missing-image" style="display:none">Add image:<br><span class="mono">assets/screenshots/docker/application-config.png</span></div>
+<img alt="FastAPI environment configuration" class="evidence-image zoomable" data-caption="FastAPI environment configuration" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../assets/screenshots/docker/application-config.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/docker/application-config.png</span></div>
 <div class="evidence-caption">Runtime configuration exposed through environment variables and the health endpoint.</div>
 </div>
 </div></details>
 </div></div></div>
-
 <div class="case-block reveal"><div class="case-layout">
 <div><div class="section-kicker">05 · Data model</div><h3>Keep persistence intentionally lightweight</h3>
 <p>The current API stores server records in an in-memory Python dictionary. Each record contains <span class="mono">id</span>, <span class="mono">name</span>, <span class="mono">ip</span> and <span class="mono">env</span>.</p>
@@ -124,13 +116,12 @@
 <ul class="practice-list"><li>Created and queried server records through the API.</li><li>Worked with the lightweight in-memory server inventory.</li><li>Kept Redis clearly separated from the current application data layer.</li></ul>
 <details class="evidence"><summary>View API data-model evidence</summary><div class="evidence-body">
 <div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/api-data-model.png" alt="FastAPI in-memory data model" data-caption="FastAPI in-memory data model" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
-<div class="missing-image" style="display:none">Add image:<br><span class="mono">assets/screenshots/docker/api-data-model.png</span></div>
+<img alt="FastAPI in-memory data model" class="evidence-image zoomable" data-caption="FastAPI in-memory data model" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../assets/screenshots/docker/api-data-model.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/docker/api-data-model.png</span></div>
 <div class="evidence-caption">Server records managed by the current application process.</div>
 </div>
 </div></details>
 </div></div></div>
-
 <div class="case-block reveal"><div class="case-layout">
 <div><div class="section-kicker">06 · FastAPI containerization</div><h3>Package the FastAPI runtime independently of the host</h3>
 <p>Once the application behaviour and data model are established, the FastAPI service is packaged into its own image. The Dockerfile uses <span class="mono">python:3.12-slim</span>, creates <span class="mono">/app</span> as the working directory, installs dependencies from <span class="mono">requirements.txt</span>, copies the application and exposes port 8000.</p>
@@ -148,21 +139,20 @@ CMD ["python", "app.py"]</pre>
 <ul class="practice-list"><li>Wrote the FastAPI image definition in a Dockerfile.</li><li>Built the image.</li><li>Ran the containerized application.</li><li>Verified the container logs.</li></ul>
 <details class="evidence"><summary>View FastAPI containerization workflow</summary><div class="evidence-body">
 <div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/dockerfile.png" alt="FastAPI Dockerfile" data-caption="FastAPI Dockerfile">
+<img alt="FastAPI Dockerfile" class="evidence-image zoomable" data-caption="FastAPI Dockerfile" src="../assets/screenshots/docker/dockerfile.png"/>
 <div class="evidence-caption">Dockerfile defining the Python 3.12 application image.</div>
 </div><div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/dockerfile-build.png" alt="Docker image build" data-caption="Docker image build">
+<img alt="Docker image build" class="evidence-image zoomable" data-caption="Docker image build" src="../assets/screenshots/docker/dockerfile-build.png"/>
 <div class="evidence-caption">Building the FastAPI image from the Dockerfile.</div>
 </div><div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/dockerfile-run.png" alt="Running FastAPI container" data-caption="Running FastAPI container">
+<img alt="Running FastAPI container" class="evidence-image zoomable" data-caption="Running FastAPI container" src="../assets/screenshots/docker/dockerfile-run.png"/>
 <div class="evidence-caption">Running the containerized FastAPI service.</div>
 </div><div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/dockerfile-logs.png" alt="FastAPI container logs" data-caption="FastAPI container logs">
+<img alt="FastAPI container logs" class="evidence-image zoomable" data-caption="FastAPI container logs" src="../assets/screenshots/docker/dockerfile-logs.png"/>
 <div class="evidence-caption">Container logs used to verify application startup and runtime output.</div>
 </div>
 </div></details>
 </div></div></div>
-
 <div class="case-block reveal"><div class="case-layout">
 <div><div class="section-kicker">07 · Docker Compose orchestration</div><h3>Manage the complete stack as one environment</h3>
 <p>Docker Compose defines the multi-container environment declaratively in one Compose file. Instead of recreating container settings manually, the file captures the services, build/image configuration, ports, volumes and runtime relationships required by the stack.</p>
@@ -171,42 +161,40 @@ CMD ["python", "app.py"]</pre>
 <ul class="practice-list"><li>Created the Compose file.</li><li>Started the full stack in detached mode.</li><li>Verified the working Compose environment through service state, HTTP checks and Redis <span class="mono">PONG</span>.</li><li>Stopped and removed the stack as one unit.</li></ul>
 <details class="evidence"><summary>View Docker Compose implementation</summary><div class="evidence-body">
 <div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/compose.png" alt="Docker Compose file" data-caption="Docker Compose file">
+<img alt="Docker Compose file" class="evidence-image zoomable" data-caption="Docker Compose file" src="../assets/screenshots/docker/compose.png"/>
 <div class="evidence-caption">Compose definition for the multi-container environment.</div>
 </div><div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/compose-execution.png" alt="Docker Compose startup" data-caption="Docker Compose startup">
+<img alt="Docker Compose startup" class="evidence-image zoomable" data-caption="Docker Compose startup" src="../assets/screenshots/docker/compose-execution.png"/>
 <div class="evidence-caption">Starting the full stack in detached mode.</div>
 </div><div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/compose-state.png" alt="Docker Compose verification" data-caption="Docker Compose verification">
+<img alt="Docker Compose verification" class="evidence-image zoomable" data-caption="Docker Compose verification" src="../assets/screenshots/docker/compose-state.png"/>
 <div class="evidence-caption">Working Compose environment verified through service state, HTTP checks and Redis.</div>
 </div><div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/compose-down.png" alt="Docker Compose shutdown" data-caption="Docker Compose shutdown">
+<img alt="Docker Compose shutdown" class="evidence-image zoomable" data-caption="Docker Compose shutdown" src="../assets/screenshots/docker/compose-down.png"/>
 <div class="evidence-caption">Stopping and removing the Compose environment as one unit.</div>
 </div>
 </div></details>
 </div></div></div>
-
 <div class="case-block reveal"><div class="case-layout">
-<div><div class="section-kicker">08 · Docker networking & DNS</div><h3>Test connectivity and name resolution on <span class="mono">mynet</span></h3>
+<div><div class="section-kicker">08 · Docker networking &amp; DNS</div><h3>Test connectivity and name resolution on <span class="mono">mynet</span></h3>
 <p>This networking exercise is separate from the Compose stack. A custom user-defined bridge network named <span class="mono">mynet</span> was created, and two standalone containers — <span class="mono">nodeA</span> and <span class="mono">nodeB</span> — were attached to it.</p>
 <p>Because both containers share the same user-defined network, they can communicate directly. Docker's embedded DNS also allows one container to resolve the other by container name instead of relying on a hard-coded IP address.</p>
 <p>The network was inspected to confirm membership, and name resolution was tested directly between the two nodes.</p></div>
 <div class="practice-panel"><div class="practice-label">Practical verification</div>
 <ul class="practice-list"><li>Created <span class="mono">mynet</span>.</li><li>Started <span class="mono">nodeA</span> and <span class="mono">nodeB</span> on the same network.</li><li>Inspected <span class="mono">mynet</span> and confirmed both containers were attached.</li><li>Verified Docker DNS name resolution between the nodes.</li></ul>
-<details class="evidence"><summary>View mynet connectivity & DNS verification</summary><div class="evidence-body">
+<details class="evidence"><summary>View mynet connectivity &amp; DNS verification</summary><div class="evidence-body">
 <div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/mynet-run.png" alt="nodeA and nodeB on mynet" data-caption="nodeA and nodeB on mynet">
+<img alt="nodeA and nodeB on mynet" class="evidence-image zoomable" data-caption="nodeA and nodeB on mynet" src="../assets/screenshots/docker/mynet-run.png"/>
 <div class="evidence-caption">Standalone containers running on the custom mynet bridge network.</div>
 </div><div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/mynet--inspect.png" alt="Docker mynet inspection" data-caption="Docker mynet inspection">
+<img alt="Docker mynet inspection" class="evidence-image zoomable" data-caption="Docker mynet inspection" src="../assets/screenshots/docker/mynet--inspect.png"/>
 <div class="evidence-caption">Network inspection confirming node membership.</div>
 </div><div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/dns-resolution.png" alt="Docker DNS resolution" data-caption="Docker DNS resolution">
+<img alt="Docker DNS resolution" class="evidence-image zoomable" data-caption="Docker DNS resolution" src="../assets/screenshots/docker/dns-resolution.png"/>
 <div class="evidence-caption">Container-name resolution through Docker's embedded DNS.</div>
 </div>
 </div></details>
 </div></div></div>
-
 <div class="case-block reveal"><div class="case-layout">
 <div><div class="section-kicker">09 · Network isolation</div><h3>Prove that DNS and connectivity stop at the network boundary</h3>
 <p>A second custom network, <span class="mono">isolated-net</span>, places another container outside <span class="mono">mynet</span>. This tests the opposite of the previous exercise: containers that do not share a Docker network should not automatically communicate or resolve one another through Docker DNS.</p>
@@ -215,48 +203,45 @@ CMD ["python", "app.py"]</pre>
 <ul class="practice-list"><li>Created a separate isolated Docker network.</li><li>Placed the test container outside <span class="mono">mynet</span>.</li><li>Attempted cross-network communication and DNS resolution.</li><li>Confirmed that DNS / connectivity did not work across the isolated network boundary.</li></ul>
 <details class="evidence"><summary>View isolated-network test</summary><div class="evidence-body">
 <div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/network-isolation.png" alt="Docker network isolation and DNS failure" data-caption="Docker network isolation and DNS failure">
+<img alt="Docker network isolation and DNS failure" class="evidence-image zoomable" data-caption="Docker network isolation and DNS failure" src="../assets/screenshots/docker/network-isolation.png"/>
 <div class="evidence-caption">Failed cross-network connectivity / DNS resolution demonstrates the isolation boundary.</div>
 </div>
 </div></details>
 </div></div></div>
-
 <div class="case-block reveal"><div class="case-layout">
-<div><div class="section-kicker">10 · Verification & troubleshooting</div><h3>Check application behaviour, service state and runtime output</h3>
+<div><div class="section-kicker">10 · Verification &amp; troubleshooting</div><h3>Check application behaviour, service state and runtime output</h3>
 <p>The project was verified at multiple layers rather than treating a running container as proof that the whole environment worked. An HTTP health request checked application behaviour, <span class="mono">docker compose ps</span> showed the state of the Compose services, and container logs provided runtime visibility for the FastAPI service.</p>
 <p>These checks answer three useful troubleshooting questions: <strong>Is the application responding?</strong>, <strong>Are the expected containers running?</strong>, and <strong>What does the application report during startup and execution?</strong></p></div>
 <div class="practice-panel"><div class="practice-label">Practical verification</div>
 <span class="code-inline mono">curl http://localhost:8000/health</span>
 <span class="code-inline mono">docker compose ps</span>
 <span class="code-inline mono">docker logs &lt;fastapi-container&gt;</span>
-<details class="evidence"><summary>View verification & troubleshooting</summary><div class="evidence-body">
+<details class="evidence"><summary>View verification &amp; troubleshooting</summary><div class="evidence-body">
 <div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/curl-health.png" alt="FastAPI health curl verification" data-caption="FastAPI health curl verification">
+<img alt="FastAPI health curl verification" class="evidence-image zoomable" data-caption="FastAPI health curl verification" src="../assets/screenshots/docker/curl-health.png"/>
 <div class="evidence-caption">HTTP health request used to verify application behaviour.</div>
 </div><div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/compose-ps.png" alt="Docker Compose service state" data-caption="Docker Compose service state">
+<img alt="Docker Compose service state" class="evidence-image zoomable" data-caption="Docker Compose service state" src="../assets/screenshots/docker/compose-ps.png"/>
 <div class="evidence-caption">docker compose ps used to inspect the running service state.</div>
 </div><div style="margin-top:14px">
-<img class="evidence-image zoomable" src="../assets/screenshots/docker/dockerfile-logs.png" alt="FastAPI container logs" data-caption="FastAPI container logs">
+<img alt="FastAPI container logs" class="evidence-image zoomable" data-caption="FastAPI container logs" src="../assets/screenshots/docker/dockerfile-logs.png"/>
 <div class="evidence-caption">Runtime logs used to verify and troubleshoot application execution.</div>
 </div>
 </div></details>
 </div></div></div>
-
 </div></section>
 <section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">What I learned</div><h2>Docker is more useful as an architecture than as a single command.</h2></div>
 <p>The project connected image creation, runtime isolation, read-only bind mounts, multiple service instances, API containerization, Compose orchestration, DNS-based discovery, network isolation and troubleshooting. The progression from standalone containers toward an integrated environment made the relationships between these concepts much clearer.</p></div></div></section>
 </main>
-
 <footer class="footer"><div class="container footer-inner">
-<div class="footer-brand"><img src="../assets/ss-logo.svg" alt=""><div><strong>SS — Sajeda Salem</strong><br><span>Build. Connect. Automate. Improve.</span></div></div>
+<div class="footer-brand"><img alt="" src="../assets/ss-logo.svg"/><div><strong>SS — Sajeda Salem</strong><br/><span>Build. Connect. Automate. Improve.</span></div></div>
 <div>Junior DevOps &amp; Cloud Engineer</div></div></footer>
 <script src="../assets/script.js"></script>
-<div class="image-lightbox" id="imageLightbox" aria-hidden="true" role="dialog" aria-label="Expanded project screenshot">
-  <div class="image-lightbox-dialog">
-    <button class="image-lightbox-close" type="button" aria-label="Close image">×</button>
-    <img src="" alt="">
-    <div class="image-lightbox-caption"></div>
-  </div>
+<div aria-hidden="true" aria-label="Expanded project screenshot" class="image-lightbox" id="imageLightbox" role="dialog">
+<div class="image-lightbox-dialog">
+<button aria-label="Close image" class="image-lightbox-close" type="button">×</button>
+<img alt="" src=""/>
+<div class="image-lightbox-caption"></div>
+</div>
 </div>
 </body></html>

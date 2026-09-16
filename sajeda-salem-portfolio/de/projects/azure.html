@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html lang="de"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Azure Cloud Infrastructure Lab — Sajeda Salem</title><link href="../../assets/ss-logo.svg" rel="icon"/><link href="../../assets/styles.css" rel="stylesheet"/></head><body>
+<header class="nav"><div class="container nav-inner">
+<a class="brand" href="../index.html"><img alt="SS logo" src="../../assets/ss-logo.svg"/><span>Sajeda Salem</span></a>
+<nav aria-label="Main navigation" class="nav-links">
+<a href="../index.html#about">Über mich</a><a href="../index.html#skills">Kenntnisse</a><a href="../index.html#projects">Projekte</a><a class="nav-cta" href="../index.html#contact">Kontakt</a>
+<span class="lang-switch"><a href="../../projects/azure.html">EN</a><span>|</span><a class="active-lang" href="azure.html">DE</a></span></nav></div></header>
+<main><header class="project-hero"><div class="container"><div class="breadcrumb"><a href="../index.html#projects">← Ausgewählte Projekte</a></div><div class="section-kicker">Cloud-Infrastruktur · Networking · Virtuelle Maschinen · Monitoring · Storage</div><h1>Azure Cloud Infrastructure Lab</h1><p class="lede">Ein strukturiertes Azure-Lab, das Production und Testing trennt und Netzwerkdesign, Windows/Linux Compute, sichere Administration, VNet Peering, Monitoring und Managed Storage mit praktischer Verifikation in jeder Phase verbindet.</p><div class="project-actions"><a class="btn btn-secondary" href="../index.html#contact">Kontakt</a></div></div></header>
+<section><div class="container">
+<div class="section-head reveal"><div><div class="section-kicker">Projektziel</div><h2>Eine kleine Cloud-Infrastruktur mit mehreren Umgebungen.</h2></div>
+<p>Das Lab wurde so aufgebaut, dass es über das reine Erstellen einzelner Azure-Ressourcen hinausgeht. Production und Testing wurden als getrennte Umgebungen aufgebaut und anschließend über Networking, virtuelle Maschinen, sichere Administration, Monitoring und Storage miteinander verbunden, sodass jede Komponente praktisch konfiguriert und validiert werden konnte.</p></div>
+<div class="diagram-frame reveal">
+<img alt="Azure infrastructure architecture diagram" onerror="this.onerror=null;this.src='../assets/diagrams/azure-architecture-placeholder.svg'" src="../../assets/diagrams/azure-architecture.png"/>
+<div class="diagram-caption">Architekturdiagramm · Production- und Testing-Umgebungen, Subnetze, VMs, Peering, Monitoring und Storage.</div>
+</div></div></section>
+<section><div class="container">
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">01 · Ressourcenorganisation</div><h3>Klare Trennung von Production und Testing</h3>
+<p>Für Production und Testing wurden getrennte Resource Groups erstellt. Dadurch erhielt jede Umgebung eine klare organisatorische Grenze und die zugehörigen Ressourcen ließen sich leichter zuordnen und verwalten.</p>
+<p>Ziel dieses Schritts war nicht nur eine andere Benennung der Ressourcen, sondern eine saubere Struktur, bevor Networking-, Compute- und Monitoring-Komponenten hinzugefügt wurden.</p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Umsetzung</div><ul class="practice-list"><li>Separate Resource Groups für Production und Testing erstellt.</li><li>Umgebungsspezifische Ressourcen der passenden Grenze zugeordnet.</li></ul><details class="evidence"><summary>Ressourcenstruktur ansehen</summary><div class="evidence-body">
+<img alt="Azure Resource Groups" class="evidence-image zoomable" data-caption="Azure Resource Groups" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/azure/resource-groups.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/azure/resource-groups.png</span></div><div class="evidence-caption">Organisation der Production- und Testing-Ressourcen.</div>
+</div></details></div>
+</div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">02 · Netzwerkdesign</div><h3>VNet-Planung, CIDR und Subnetz-Segmentierung</h3>
+<p>Die Production-Umgebung verwendet den Address Space <span class="mono">10.0.0.0/16</span>. Darin trennen zwei Subnetze die Workloads: <span class="mono">Fin App → 10.0.0.0/24</span> und <span class="mono">Web App → 10.0.1.0/26</span>.</p>
+<p>Ein zweites Testing VNet verwendet <span class="mono">192.168.0.0/24</span>. Die Trennung von Testing in einem eigenen virtuellen Netzwerk ermöglichte sowohl Isolation als auch die spätere Cross-Network-Kommunikation über Peering.</p>
+<p>Dieser Teil des Labs bot praktische Erfahrung mit CIDR-Adressierung, Address-Space-Planung und Subnetz-Segmentierung, statt VNet-Erstellung als reine One-Click-Aufgabe zu behandeln.</p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Umsetzung</div>
+<span class="code-inline mono">Production VNet  10.0.0.0/16</span>
+<span class="code-inline mono">Fin App  10.0.0.0/24</span>
+<span class="code-inline mono">Web App  10.0.1.0/26</span>
+<span class="code-inline mono">Testing VNet  192.168.0.0/24</span>
+<details class="evidence"><summary>Production VNet &amp; Subnetze ansehen</summary><div class="evidence-body">
+<img alt="Production VNet and subnets" class="evidence-image zoomable" data-caption="Production VNet and subnets" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/azure/production-vnet.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/azure/production-vnet.png</span></div><div class="evidence-caption">Production Address Space und Segmentierung der Workload-Subnetze.</div>
+</div></details>
+<details class="evidence"><summary>Testing VNet ansehen</summary><div class="evidence-body">
+<img alt="Testing VNet" class="evidence-image zoomable" data-caption="Testing VNet" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/azure/testing-vnet.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/azure/testing-vnet.png</span></div><div class="evidence-caption">Separates virtuelles Netzwerk für Testing.</div>
+</div></details>
+</div></div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">03 · Virtuelle Maschinen</div><h3>Gemischte Windows- und Linux-Workloads</h3>
+<p>Die Production-Umgebung enthält eine Windows Server 2025 Datacenter VM und eine Rocky Linux 9 VM. In Testing wurde zusätzlich eine separate Rocky Linux 9 VM deployed.</p>
+<p>Dadurch entstand ein kleines Multi-Environment-Setup, in dem sowohl Windows- als auch Linux-Administration praktisch geübt und später die Konnektivität zwischen Hosts in unterschiedlichen virtuellen Netzwerken getestet werden konnte.</p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Umsetzung</div><ul class="practice-list"><li>Windows Server 2025 Datacenter in Production.</li><li>Rocky Linux 9 in Production.</li><li>Rocky Linux 9 in Testing.</li></ul><details class="evidence"><summary>VM-Deployment ansehen</summary><div class="evidence-body">
+<img alt="Azure virtual machine deployment" class="evidence-image zoomable" data-caption="Azure virtual machine deployment" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/azure/vm-deployment.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/azure/vm-deployment.png</span></div><div class="evidence-caption">Windows Server and Rocky Linux virtual machines.</div>
+</div></details></div>
+</div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">04 · Sichere Remote-Administration</div><h3>RDP für Windows, SSH Keys für Linux</h3>
+<p>Die Windows-Server-VM wurde über Remote Desktop Protocol administriert. Auf die Rocky-Linux-Systeme wurde per SSH mit Key-basierter Authentifizierung zugegriffen.</p>
+<p>Durch den jeweils passenden Zugriff wurde Remote-Administration selbst Teil des Labs. Besonders die SSH-Key-Authentifizierung bot praktische Erfahrung mit dem in Cloud-Umgebungen üblichen Zugriffsmodell für Linux-Server.</p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Verifikation</div><ul class="practice-list"><li>Funktionierende RDP-Session zum Windows Server hergestellt.</li><li>Verbindung zu Rocky Linux per SSH-Key-Authentifizierung hergestellt.</li></ul><details class="evidence"><summary>SSH-/RDP-Zugriff ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="Windows Server RDP session" class="evidence-image zoomable" data-caption="Windows Server RDP session" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/azure/remote-access.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/azure/remote-access.png</span></div>
+<div class="evidence-caption">RDP — Remote-Desktop-Zugriff auf die Windows-Server-VM.</div>
+</div><div style="margin-top:14px">
+<img alt="Rocky Linux SSH session" class="evidence-image zoomable" data-caption="Rocky Linux SSH session" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/azure/remote-access2.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/azure/remote-access2.png</span></div>
+<div class="evidence-caption">SSH — Key-basierter Remote-Zugriff auf die Rocky-Linux-VM.</div>
+</div>
+</div></details></div>
+</div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">05 · VNet Peering</div><h3>Getrennte Umgebungen gezielt verbinden</h3>
+<p>Zwischen Production und Testing wurde VNet Peering eingerichtet. Ziel war es, Kommunikation zwischen den getrennten VNets zu ermöglichen und gleichzeitig die logische Trennung der Umgebungen auf Netzwerkebene beizubehalten.</p>
+<p>Die Konfiguration wurde anschließend mit einem echten Connectivity-Test validiert. Der erfolgreiche Test bestätigte, dass das Peering tatsächlich funktionierte und nicht nur im Azure Portal konfiguriert war.</p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Verifikation</div><ul class="practice-list"><li>VNet Peering zwischen Production und Testing konfiguriert.</li><li>Konnektivität zwischen den gepeerten Netzwerken getestet.</li><li>Erfolgreiche Kommunikation bestätigt.</li></ul><details class="evidence"><summary>VNet-Konnektivitätstest ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="Azure VNet Peering configuration" class="evidence-image zoomable" data-caption="Azure VNet Peering configuration" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/azure/vnet-peering-test.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/azure/vnet-peering-test.png</span></div>
+<div class="evidence-caption">VNet Peering — Production VNet mit dem Testing VNet verbunden.</div>
+</div><div style="margin-top:14px">
+<img alt="Azure VNet Peering connectivity verification" class="evidence-image zoomable" data-caption="Azure VNet Peering connectivity verification" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/azure/vnet-peering-test2.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/azure/vnet-peering-test2.png</span></div>
+<div class="evidence-caption">Konnektivitätsverifikation — Kommunikation über die gepeerten VNets erfolgreich getestet.</div>
+</div>
+</div></details></div>
+</div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">06 · Monitoring &amp; Alerting</div><h3>Infrastruktur nach dem Deployment überwachen</h3>
+<p>Azure Monitor wurde zur Überwachung der VM-CPU-Auslastung konfiguriert. Für die CPU-Alert-Rule wurde ein Schwellenwert von <span class="mono">0.2%</span> verwendet. Zusätzlich wurde eine Azure Action Group eingerichtet, die beim Auslösen der Alert-Bedingung eine E-Mail sendet.</p>
+<p>Entscheidend war die End-to-End-Verifikation: Der Alert wurde nicht nur konfiguriert, sondern in Azure Monitor geprüft und durch die tatsächlich empfangene E-Mail-Benachrichtigung bestätigt. Damit wurde aus der Konfiguration ein nachvollziehbarer Beleg dafür, dass die komplette Notification Chain funktionierte.</p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Verifikation</div><ul class="practice-list"><li>CPU-Auslastungs-Alert erstellt.</li><li>Azure Action Group konfiguriert.</li><li>Alert ausgelöst bzw. verifiziert.</li><li>Benachrichtigungs-E-Mail erfolgreich empfangen.</li></ul><details class="evidence"><summary>Monitoring- &amp; E-Mail-Verifikation ansehen</summary><div class="evidence-body">
+<div style="margin-top:14px">
+<img alt="Azure Monitor alert settings" class="evidence-image zoomable" data-caption="Azure Monitor alert settings" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/azure/monitoring-alert.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/azure/monitoring-alert.png</span></div>
+<div class="evidence-caption">Azure Monitor — alert rule configuration.</div>
+</div><div style="margin-top:14px">
+<img alt="Azure Monitor alert verification" class="evidence-image zoomable" data-caption="Azure Monitor alert verification" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/azure/monitoring-alert2.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/azure/monitoring-alert2.png</span></div>
+<div class="evidence-caption">Azure Monitor — konfigurierter Alert und Monitoring-Verifikation.</div>
+</div><div style="margin-top:14px">
+<img alt="Azure Monitor email notification" class="evidence-image zoomable" data-caption="Azure Monitor email notification" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" src="../../assets/screenshots/azure/monitoring-alert3.png"/>
+<div class="missing-image" style="display:none">Add image:<br/><span class="mono">assets/screenshots/azure/monitoring-alert3.png</span></div>
+<div class="evidence-caption">E-Mail-Verifikation — die Benachrichtigung der Action Group wurde erfolgreich empfangen.</div>
+</div>
+</div></details></div>
+</div></div>
+<div class="case-block reveal"><div class="case-layout">
+<div><div class="section-kicker">07 · Cloud Storage</div><h3>Managed Shared Storage, von einem Client getestet</h3>
+<p>Ein Azure Storage Account wurde mit einem Azure File Share eingerichtet. Dadurch wurde Managed Cloud Storage als eigenständige Infrastrukturkomponente genutzt, statt Daten ausschließlich an eine VM zu binden.</p>
+<p>Der File Share wurde zusätzlich lokal eingebunden. Damit konnte der Zugriff praktisch getestet und gezeigt werden, wie cloudbasierter Shared Storage außerhalb des Azure Portals genutzt werden kann.</p></div>
+<div class="practice-panel"><div class="practice-label">Praktische Verifikation</div><ul class="practice-list"><li>Azure Storage Account erstellt.</li><li>Azure File Share erstellt.</li><li>File Share lokal eingebunden und Zugriff getestet.</li></ul><details class="evidence"><summary>Storage-Konfiguration &amp; lokalen Mount ansehen</summary><div class="evidence-body">
+<figure class="evidence-figure evidence-figure-wide">
+<img alt="Azure File Share mounted locally and visible from Windows" class="evidence-image zoomable" data-caption="Local-Mount-Verifikation — der Azure File Share ist unter Windows sichtbar, während dieselben Dateien gleichzeitig in Azure angezeigt werden." src="../../assets/screenshots/azure/storage-local-mount.png"/>
+<figcaption class="evidence-caption">
+    Local-Mount-Verifikation — der Azure File Share ist unter Windows sichtbar, während dieselben Dateien gleichzeitig in Azure angezeigt werden.
+  </figcaption>
+</figure>
+</div></details></div>
+</div></div>
+</div></section>
+<section><div class="container"><div class="section-head reveal"><div><div class="section-kicker">Was ich gelernt habe</div><h2>Infrastruktur wird dann wertvoll, wenn ihre Komponenten gemeinsam getestet werden.</h2></div>
+<p>Das Projekt verband Netzwerkdesign, Compute, sicheren Zugriff, Monitoring und Storage in einer gemeinsamen Umgebung. Noch wichtiger war, dass jeder Bereich praktisch validiert wurde — von SSH/RDP-Zugriff und Cross-VNet-Konnektivität bis zu Alert-Benachrichtigungen und eingebundenem Storage. Genau so möchte ich DevOps angehen: aufbauen, testen, untersuchen und verstehen, warum etwas funktioniert.</p></div></div></section>
+</main>
+<footer class="footer"><div class="container footer-inner">
+<div class="footer-brand"><img alt="" src="../../assets/ss-logo.svg"/><div><strong>SS — Sajeda Salem</strong><br/><span>Build. Connect. Automate. Improve.</span></div></div>
+<div>Junior DevOps &amp; Cloud Engineer</div></div></footer>
+<script src="../../assets/script.js"></script>
+<div aria-hidden="true" aria-label="Expanded project screenshot" class="image-lightbox" id="imageLightbox" role="dialog">
+<div class="image-lightbox-dialog">
+<button aria-label="Close image" class="image-lightbox-close" type="button">×</button>
+<img alt="" src=""/>
+<div class="image-lightbox-caption"></div>
+</div>
+</div>
+</body></html>
