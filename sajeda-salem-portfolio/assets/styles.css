@@ -79,9 +79,10 @@ section{padding:102px 0;border-top:1px solid rgba(37,55,80,.55)}
 .meta-card{padding:18px}.meta-card small{display:block;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-size:.68rem}.meta-card strong{display:block;margin-top:5px}
 .focus-track{position:relative;display:flex;gap:10px;flex-wrap:wrap;padding:20px;border:1px solid var(--border);border-radius:18px;background:rgba(15,23,42,.6)}
 .focus-track::before{content:"";position:absolute;left:28px;right:28px;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(96,165,250,.32),transparent);z-index:0}
-.focus-pill{position:relative;z-index:1;display:inline-flex;align-items:center;gap:9px;padding:11px 15px;border-radius:999px;background:#0E1829;border:1px solid #2A3E5B;font-weight:780;color:#DCEBFF}
-.focus-pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(96,165,250,.08)}
-.focus-pill:hover{border-color:var(--accent);background:#122039}
+.focus-pill{position:relative;z-index:1;display:inline-flex;align-items:center;gap:10px;padding:11px 15px;border-radius:999px;background:#0E1829;border:1px solid #2A3E5B;font-weight:780;color:#DCEBFF}
+.focus-icon{width:19px;height:19px;flex:0 0 19px;object-fit:contain}
+.focus-icon-stroke{stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.focus-pill:hover{border-color:var(--accent);background:#122039;transform:translateY(-1px)}
 .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .skill-card{padding:26px}.skill-card h3{margin:0 0 14px;font-size:1.1rem}
 .tags{display:flex;flex-wrap:wrap;gap:8px}
@@ -93,7 +94,14 @@ section{padding:102px 0;border-top:1px solid rgba(37,55,80,.55)}
 .project-card h3{font-size:1.5rem;margin:0 0 8px}.project-card p{color:var(--text-2);margin:0}
 .arrow{width:46px;height:46px;border:1px solid var(--border);border-radius:50%;display:grid;place-items:center;color:var(--accent-soft)}
 .edu-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+.edu-grid-single{grid-template-columns:1fr}
 .education-card{padding:30px}.education-card h3{margin:4px 0}.education-card p{color:var(--text-2)}
+.training-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.training-card{padding:28px;background:linear-gradient(180deg,rgba(23,32,51,.9),rgba(17,24,39,.9));border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 10px 32px rgba(0,0,0,.12)}
+.training-card h3{margin:5px 0 12px;font-size:1.18rem;line-height:1.25}
+.training-card p{color:var(--text-2);margin:0 0 18px}
+.training-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+.training-badge{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-soft);border:1px solid rgba(96,165,250,.3);background:rgba(96,165,250,.06);padding:6px 9px;border-radius:999px;white-space:nowrap}
 .timeline{border-left:1px solid var(--border);padding-left:24px;margin-left:5px}
 .timeline-item{position:relative;padding:0 0 28px}.timeline-item::before{content:"";position:absolute;left:-30px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px rgba(96,165,250,.08)}
 .languages{display:flex;gap:10px;flex-wrap:wrap}
@@ -163,7 +171,7 @@ td{color:var(--text-2)}tr:last-child td{border-bottom:0}
 @media(max-width:680px){
   .container{width:min(calc(100% - 28px),var(--max))}
   .nav-links a:not(.nav-cta){display:none}.hero{min-height:auto;padding-top:78px}.hero h1{font-size:clamp(3.7rem,20vw,6.4rem)}
-  section{padding:78px 0}.section-head{gap:16px}.about-meta,.skills-grid,.grid-2{grid-template-columns:1fr}
+  section{padding:78px 0}.section-head{gap:16px}.about-meta,.skills-grid,.grid-2,.training-grid{grid-template-columns:1fr}
   .project-card{grid-template-columns:1fr;gap:10px}.project-no{font-size:1.4rem}
   .yaml-head{align-items:flex-start;flex-direction:column}.yaml-actions{width:100%;flex-wrap:wrap}
 }
@@ -295,4 +303,29 @@ body.lightbox-open{
 .evidence-figure:hover::after{
   opacity:1;
   transform:none;
+}
+
+/* Kubernetes case-study additions */
+.diagram-frame img[alt*="Kubernetes"],
+.diagram-frame img[alt*="DevOps road"]{
+  background:#f8fafc;
+  object-fit:contain;
+}
+@media (max-width:760px){
+  .arch-flow{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:8px}
+  .arch-node{min-width:145px}
+  .connector{flex:0 0 auto}
+}
+
+/* v12 fixes */
+.focus-pill .focus-icon{display:block;max-width:19px;max-height:19px}
+.diagram-frame{overflow:visible}
+.diagram-frame img[alt*="Kubernetes"],
+.diagram-frame img[alt*="DevOps road"]{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  object-fit:contain;
+  object-position:center;
 }

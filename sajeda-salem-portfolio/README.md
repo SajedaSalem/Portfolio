@@ -31,3 +31,13 @@ CI:
 Export your Draw.io architecture as PNG and save it exactly as:
 `assets/diagrams/azure-architecture.png`
 The placeholder disappears automatically.
+
+
+## Render-safe visibility fix
+Sections are now visible by default and no longer depend on JavaScript IntersectionObserver to appear.
+
+
+## v11 homepage updates
+- Added Training & Courses section (DevOps Bootcamp, CCNA 2, CCNA 1).
+- Updated Technical Skills to reflect Kubernetes/GitLab CI/CD project experience.
+- Replaced Current Focus dots with tool logos + labels and added Terraform/Ansible as current bootcamp focus.
